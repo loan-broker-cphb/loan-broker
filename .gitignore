@@ -1,0 +1,10 @@
+.DS_Store
+.settings/
+.project
+.classpath
+target/
+.idea/
+*.iml
+bin/
+dependency-reduced-pom.xml
+.fbExcludeFilterFile
