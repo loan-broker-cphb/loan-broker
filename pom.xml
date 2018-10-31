@@ -8,6 +8,12 @@
     <artifactId>loan-broker</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.0.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
     <modules>
         <module>loan-broker-credit-score</module>
         <module>loan-broker-get-banks</module>
@@ -15,8 +21,23 @@
         <module>loan-broker-bank-translator-json</module>
         <module>loan-broker-bank-translator-xml</module>
         <module>loan-broker-normalizer</module>
+        <module>loan-broker-utils</module>
+        <module>loan-broker-commons</module>
         <module>loan-broker-aggregator</module>
+        <module>loan-broker-api</module>
     </modules>
+    <dependencies>
 
 
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>
