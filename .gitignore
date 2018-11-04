@@ -8,3 +8,6 @@ target/
 bin/
 dependency-reduced-pom.xml
 .fbExcludeFilterFile
+
+loan-broker-credit-score/lib/
+
