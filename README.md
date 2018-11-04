@@ -13,3 +13,11 @@ See the project description [here](https://github.com/datsoftlyngby/soft2018fall
 ### Loan Broker Design
 ![image](https://user-images.githubusercontent.com/16150075/47963816-60fcce00-e031-11e8-872c-cbd7dd077dd1.png)
 
+### The Message Flow
+1. Receive the consumer's loan quote request.
+2. Obtain the credit score and history from credit agency.
+3. Determine the most appropriate banks to contact.
+4. Send a request to each selected bank.
+5. Collect responses from each selected bank.
+6. Determine the best response.
+7. Pass the result back to the consumer.
