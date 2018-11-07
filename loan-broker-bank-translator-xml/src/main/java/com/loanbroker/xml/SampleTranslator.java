@@ -1,4 +1,4 @@
-package com.loanbroker.commons;
+package com.loanbroker.xml;
 
 public class SampleTranslator {
 }
