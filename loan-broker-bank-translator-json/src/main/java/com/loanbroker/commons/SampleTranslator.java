@@ -1,4 +1,4 @@
 package com.loanbroker.commons;
 
-public class SampleModel {
+public class SampleTranslator {
 }
