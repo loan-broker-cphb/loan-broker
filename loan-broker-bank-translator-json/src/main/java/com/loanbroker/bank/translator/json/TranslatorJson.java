@@ -1,4 +1,4 @@
 package com.loanbroker.bank.translator.json;
 
-public class SampleTranslator {
+public class TranslatorJson {
 }
