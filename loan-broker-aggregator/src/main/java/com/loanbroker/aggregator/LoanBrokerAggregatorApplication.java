@@ -1,12 +1,17 @@
 package com.loanbroker.aggregator;
 
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.amqp.support.converter.Jackson2JavaTypeMapper;
+import org.springframework.amqp.support.converter.Jackson2XmlMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -56,8 +61,14 @@ public class LoanBrokerAggregatorApplication {
     }
 
     @Bean
+    MessageConverter messageConverter() {
+        XmlMapper xmlMapper = new XmlMapper();
+        return new Jackson2XmlMessageConverter(xmlMapper);
+    }
+
+    @Bean
     MessageListenerAdapter listenerAdapter(Receiver receiver) {
-        return new MessageListenerAdapter(receiver, "receiveMessage");
+        return new MessageListenerAdapter(receiver, messageConverter());
     }
 
     public static void main(String[] args) {
