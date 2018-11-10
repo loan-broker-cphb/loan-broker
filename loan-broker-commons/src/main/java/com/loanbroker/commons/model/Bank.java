@@ -1,4 +1,4 @@
-package com.loanbroker;
+package com.loanbroker.commons.model;
 
 public class Bank {
     private String name;

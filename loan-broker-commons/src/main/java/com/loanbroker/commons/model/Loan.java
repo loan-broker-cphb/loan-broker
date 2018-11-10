@@ -1,4 +1,4 @@
-package com.loanbroker;
+package com.loanbroker.commons.model;
 
 import java.util.ArrayList;
 
