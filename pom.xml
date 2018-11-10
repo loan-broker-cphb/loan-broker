@@ -8,6 +8,12 @@
     <artifactId>loan-broker</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
+
+    <properties>
+        <fasterxml.version>2.9.6</fasterxml.version>
+    </properties>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
