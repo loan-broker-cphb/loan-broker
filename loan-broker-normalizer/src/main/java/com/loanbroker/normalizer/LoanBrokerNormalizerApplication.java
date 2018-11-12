@@ -1,15 +1,13 @@
 package com.loanbroker.normalizer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import com.loanbroker.normalizer.model.IncomingMessage;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
-import org.springframework.amqp.support.converter.Jackson2XmlMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.amqp.support.converter.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +19,7 @@ public class LoanBrokerNormalizerApplication {
 
     private static final String jsonQueueName = "normalizer-json";
     private static final String xmlQueueName = "normalizer-xml";
+    private static final String aggregatorQueueName = "normalizer-aggregator";
 
 
     @Bean
@@ -32,7 +31,6 @@ public class LoanBrokerNormalizerApplication {
     Queue xmlQueue() {
         return new Queue(xmlQueueName, true);
     }
-
 
     @Bean
     DirectExchange exchange() {
@@ -66,6 +64,7 @@ public class LoanBrokerNormalizerApplication {
         container.setConnectionFactory(connectionFactory);
         container.addQueueNames(jsonQueueName);
         container.setMessageListener(jsonListenerAdapter);
+        container.setMessageConverter(jsonConverter());
         return container;
     }
 
@@ -76,13 +75,22 @@ public class LoanBrokerNormalizerApplication {
     }
 
     @Bean
+    MessageConverter jsonConverter() {
+        DefaultClassMapper mapper = new DefaultClassMapper();
+        mapper.setDefaultType(IncomingMessage.class);
+        Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
+        converter.setClassMapper(mapper);
+        return converter;
+    }
+
+    @Bean
     MessageListenerAdapter xmlListenerAdapter(XmlReceiver xmlReceiver) {
         return new MessageListenerAdapter(xmlReceiver, xmlConverter());
     }
 
     @Bean
     MessageListenerAdapter jsonListenerAdapter(JsonReceiver jsonReceiver) {
-        return new MessageListenerAdapter(jsonReceiver);
+        return new MessageListenerAdapter(jsonReceiver, jsonConverter());
     }
 
     public static void main(String[] args) {

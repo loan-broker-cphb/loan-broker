@@ -1,26 +1,28 @@
 package com.loanbroker.normalizer.model;
 
+import java.math.BigDecimal;
 
 public class IncomingMessage {
-    private String ssn;
-    private String interestRate;
+
+    private int ssn;
+    private BigDecimal interestRate;
 
     public IncomingMessage() {
     }
 
-    public String getSsn() {
+    public int getSsn() {
         return ssn;
     }
 
-    public void setSsn(String ssn) {
+    public void setSsn(int ssn) {
         this.ssn = ssn;
     }
 
-    public String getInterestRate() {
+    public BigDecimal getInterestRate() {
         return interestRate;
     }
 
-    public void setInterestRate(String interestRate) {
+    public void setInterestRate(BigDecimal interestRate) {
         this.interestRate = interestRate;
     }
 }
