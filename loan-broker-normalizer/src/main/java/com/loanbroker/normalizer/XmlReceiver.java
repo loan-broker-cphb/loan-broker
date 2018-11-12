@@ -1,6 +1,6 @@
 package com.loanbroker.normalizer;
 
-import com.loanbroker.normalizer.model.IncomingMessage;
+import com.loanbroker.commons.model.NormalizerAggregatorMessage;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class XmlReceiver {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void handleMessage(IncomingMessage message) {
+    public void handleMessage(NormalizerAggregatorMessage message) {
         System.out.println(message.getInterestRate());
         rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.directExchangeName, routingKey, message);
     }

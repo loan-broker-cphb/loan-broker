@@ -1,6 +1,6 @@
 package com.loanbroker.normalizer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.loanbroker.normalizer.model.IncomingMessage;
 import org.springframework.amqp.core.*;
@@ -64,22 +64,27 @@ public class LoanBrokerNormalizerApplication {
         container.setConnectionFactory(connectionFactory);
         container.addQueueNames(jsonQueueName);
         container.setMessageListener(jsonListenerAdapter);
-        container.setMessageConverter(jsonConverter());
         return container;
     }
 
     @Bean
+    ClassMapper incomingMessageClassMapper() {
+        DefaultClassMapper mapper = new DefaultClassMapper();
+        mapper.setDefaultType(IncomingMessage.class);
+        return mapper;
+    }
+
+    @Bean
     MessageConverter xmlConverter() {
-        XmlMapper xmlMapper = new XmlMapper();
-        return new Jackson2XmlMessageConverter(xmlMapper);
+        Jackson2XmlMessageConverter converter = new Jackson2XmlMessageConverter();
+        converter.setClassMapper(incomingMessageClassMapper());
+        return converter;
     }
 
     @Bean
     MessageConverter jsonConverter() {
-        DefaultClassMapper mapper = new DefaultClassMapper();
-        mapper.setDefaultType(IncomingMessage.class);
         Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
-        converter.setClassMapper(mapper);
+        converter.setClassMapper(incomingMessageClassMapper());
         return converter;
     }
 

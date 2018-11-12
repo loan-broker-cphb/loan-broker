@@ -1,6 +1,6 @@
 package com.loanbroker.aggregator;
 
-import com.loanbroker.commons.model.NormalizerAggregator;
+import com.loanbroker.commons.model.NormalizerAggregatorMessage;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;
@@ -26,12 +26,12 @@ public class Runner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Sending message...");
-        NormalizerAggregator normalizerAggregator = new NormalizerAggregator();
-        normalizerAggregator.setSsn("12345");
-        normalizerAggregator.setInterestRate(BigDecimal.valueOf(1.12345));
-        Message message = converter.toMessage(normalizerAggregator, null, NormalizerAggregator.class);
+        NormalizerAggregatorMessage normalizerAggregatorMessage = new NormalizerAggregatorMessage();
+        normalizerAggregatorMessage.setSsn(12345);
+        normalizerAggregatorMessage.setInterestRate(BigDecimal.valueOf(1.12345));
+        Message message = converter.toMessage(normalizerAggregatorMessage, null, NormalizerAggregatorMessage.class);
         rabbitTemplate.send(LoanBrokerAggregatorApplication.directExchangeName, "ping", message);
-//        rabbitTemplate.convertAndSend(LoanBrokerAggregatorApplication.directExchangeName, "ping", normalizerAggregator);
+//        rabbitTemplate.convertAndSend(LoanBrokerAggregatorApplication.directExchangeName, "ping", normalizerAggregatorMessage);
         receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
     }
 }
