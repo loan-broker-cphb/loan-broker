@@ -1,8 +1,6 @@
 package com.loanbroker.normalizer;
 
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.loanbroker.normalizer.model.IncomingMessage;
+import com.loanbroker.commons.model.NormalizerAggregatorMessage;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -68,23 +66,23 @@ public class LoanBrokerNormalizerApplication {
     }
 
     @Bean
-    ClassMapper incomingMessageClassMapper() {
+    ClassMapper normalizerAggregatorMessageClassMapper() {
         DefaultClassMapper mapper = new DefaultClassMapper();
-        mapper.setDefaultType(IncomingMessage.class);
+        mapper.setDefaultType(NormalizerAggregatorMessage.class);
         return mapper;
     }
 
     @Bean
     MessageConverter xmlConverter() {
         Jackson2XmlMessageConverter converter = new Jackson2XmlMessageConverter();
-        converter.setClassMapper(incomingMessageClassMapper());
+        converter.setClassMapper(normalizerAggregatorMessageClassMapper());
         return converter;
     }
 
     @Bean
     MessageConverter jsonConverter() {
         Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
-        converter.setClassMapper(incomingMessageClassMapper());
+        converter.setClassMapper(normalizerAggregatorMessageClassMapper());
         return converter;
     }
 
