@@ -10,10 +10,10 @@ import java.util.concurrent.TimeUnit;
 public class Runner implements CommandLineRunner {
 
     private final RabbitTemplate rabbitTemplate;
-    private final Receiver receiver;
+    private final XmlReceiver xmlReceiver;
 
-    public Runner(Receiver receiver, RabbitTemplate rabbitTemplate) {
-        this.receiver = receiver;
+    public Runner(XmlReceiver xmlReceiver, RabbitTemplate rabbitTemplate) {
+        this.xmlReceiver = xmlReceiver;
         this.rabbitTemplate = rabbitTemplate;
     }
 
@@ -22,6 +22,6 @@ public class Runner implements CommandLineRunner {
         System.out.println("Sending message...");
         rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.directExchangeName, "ping", "Hello from RabbitMQ!");
         rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.directExchangeName, "ping2", "Hello from RabbitMQ 2!");
-        receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
+        xmlReceiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
     }
 }

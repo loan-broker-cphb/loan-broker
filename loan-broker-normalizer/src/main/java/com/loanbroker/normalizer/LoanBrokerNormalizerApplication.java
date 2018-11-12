@@ -1,5 +1,6 @@
 package com.loanbroker.normalizer;
 
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -7,6 +8,8 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.amqp.support.converter.Jackson2XmlMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,19 +19,20 @@ public class LoanBrokerNormalizerApplication {
 
     static final String directExchangeName = "direct.test";
 
-    static final String queueName = "normalizer-aggregator";
+    private static final String jsonQueueName = "normalizer-json";
+    private static final String xmlQueueName = "normalizer-xml";
 
-    static final String queueName2 = "normalizer-aggregator-2";
 
     @Bean
-    Queue queue() {
-        return new Queue(queueName, true);
+    Queue jsonQueue() {
+        return new Queue(jsonQueueName, true);
     }
 
     @Bean
-    Queue queue2() {
-        return new Queue(queueName2, true);
+    Queue xmlQueue() {
+        return new Queue(xmlQueueName, true);
     }
+
 
     @Bean
     DirectExchange exchange() {
@@ -36,28 +40,49 @@ public class LoanBrokerNormalizerApplication {
     }
 
     @Bean
-    Binding binding(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("ping");
+    Binding jsonQueueBinding(Queue jsonQueue, DirectExchange exchange) {
+        return BindingBuilder.bind(jsonQueue).to(exchange).withQueueName();
     }
 
     @Bean
-    Binding binding2(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("ping2");
+    Binding xmlQueueBinding(Queue xmlQueue, DirectExchange exchange) {
+        return BindingBuilder.bind(xmlQueue).to(exchange).withQueueName();
     }
 
     @Bean
-    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
-                                             MessageListenerAdapter listenerAdapter) {
+    SimpleMessageListenerContainer xmlContainer(ConnectionFactory connectionFactory,
+                                             MessageListenerAdapter xmlListenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.addQueueNames(queueName, queueName2);
-        container.setMessageListener(listenerAdapter);
+        container.addQueueNames(xmlQueueName);
+        container.setMessageListener(xmlListenerAdapter);
         return container;
     }
 
     @Bean
-    MessageListenerAdapter listenerAdapter(Receiver receiver) {
-        return new MessageListenerAdapter(receiver, "receiveMessage");
+    SimpleMessageListenerContainer jsonContainer(ConnectionFactory connectionFactory,
+                                             MessageListenerAdapter jsonListenerAdapter) {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.addQueueNames(jsonQueueName);
+        container.setMessageListener(jsonListenerAdapter);
+        return container;
+    }
+
+    @Bean
+    MessageConverter xmlConverter() {
+        XmlMapper xmlMapper = new XmlMapper();
+        return new Jackson2XmlMessageConverter(xmlMapper);
+    }
+
+    @Bean
+    MessageListenerAdapter xmlListenerAdapter(XmlReceiver xmlReceiver) {
+        return new MessageListenerAdapter(xmlReceiver, xmlConverter());
+    }
+
+    @Bean
+    MessageListenerAdapter jsonListenerAdapter(JsonReceiver jsonReceiver) {
+        return new MessageListenerAdapter(jsonReceiver);
     }
 
     public static void main(String[] args) {
