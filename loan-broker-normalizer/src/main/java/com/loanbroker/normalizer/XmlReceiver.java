@@ -23,7 +23,7 @@ public class XmlReceiver {
 
     public void handleMessage(NormalizerAggregatorMessage message) {
         System.out.println(message.getInterestRate());
-        rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.directExchangeName, routingKey, message);
+        rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.aggregatorExchangeName, routingKey, message);
     }
 
     public CountDownLatch getLatch() {

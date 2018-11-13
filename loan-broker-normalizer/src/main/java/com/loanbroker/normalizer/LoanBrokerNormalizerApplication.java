@@ -3,9 +3,11 @@ package com.loanbroker.normalizer;
 import com.loanbroker.commons.model.NormalizerAggregatorMessage;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.support.converter.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +15,13 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class LoanBrokerNormalizerApplication {
 
-    static final String directExchangeName = "direct.test";
+    static final String aggregatorExchangeName = "direct.test";
 
-    private static final String jsonQueueName = "normalizer-json";
-    private static final String xmlQueueName = "normalizer-xml";
-    private static final String aggregatorQueueName = "normalizer-aggregator";
+    private static final String jsonQueueName = "g4.json.reply-to";
+    private static final String xmlQueueName = "g4.xml.reply-to";
 
+    @Value("${aggregator.amqp.url}")
+    private String aggregatorAmqpUrl;
 
     @Bean
     Queue jsonQueue() {
@@ -32,17 +35,15 @@ public class LoanBrokerNormalizerApplication {
 
     @Bean
     DirectExchange exchange() {
-        return new DirectExchange(directExchangeName);
+        return new DirectExchange(aggregatorExchangeName);
     }
 
     @Bean
-    Binding jsonQueueBinding(Queue jsonQueue, DirectExchange exchange) {
-        return BindingBuilder.bind(jsonQueue).to(exchange).withQueueName();
-    }
-
-    @Bean
-    Binding xmlQueueBinding(Queue xmlQueue, DirectExchange exchange) {
-        return BindingBuilder.bind(xmlQueue).to(exchange).withQueueName();
+    RabbitTemplate rabbitTemplate() {
+        RabbitTemplate template = new RabbitTemplate();
+        ConnectionFactory factory = ConnectionFactoryBuilder.create(aggregatorAmqpUrl);
+        template.setConnectionFactory(factory);
+        return template;
     }
 
     @Bean

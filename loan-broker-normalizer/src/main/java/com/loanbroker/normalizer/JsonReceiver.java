@@ -23,7 +23,7 @@ public class JsonReceiver {
 
     public void handleMessage(NormalizerAggregatorMessage message) {
         System.out.println(message.getSsn());
-        // rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.directExchangeName, routingKey, message);
+        rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.aggregatorExchangeName, routingKey, message);
     }
 
     public CountDownLatch getLatch() {
