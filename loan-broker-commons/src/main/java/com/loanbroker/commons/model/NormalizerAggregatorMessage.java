@@ -3,17 +3,17 @@ package com.loanbroker.commons.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class NormalizerAggregator implements Serializable {
-    public NormalizerAggregator() {}
+public class NormalizerAggregatorMessage implements Serializable {
+    public NormalizerAggregatorMessage() {}
 
-    private String ssn;
+    private int ssn;
     private BigDecimal interestRate;
 
-    public String getSsn() {
+    public int getSsn() {
         return ssn;
     }
 
-    public void setSsn(String ssn) {
+    public void setSsn(int ssn) {
         this.ssn = ssn;
     }
 

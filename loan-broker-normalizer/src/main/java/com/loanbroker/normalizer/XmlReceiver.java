@@ -1,27 +1,29 @@
-package com.loanbroker.aggregator;
+package com.loanbroker.normalizer;
 
 import com.loanbroker.commons.model.NormalizerAggregatorMessage;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CountDownLatch;
 
 @Component
-public class Receiver {
+public class XmlReceiver {
+
+    @Value("${normalizer.routingkey}")
+    private String routingKey;
+
     private CountDownLatch latch = new CountDownLatch(1);
 
     private final RabbitTemplate rabbitTemplate;
-    private final MessageConverter converter;
 
-    public Receiver(RabbitTemplate rabbitTemplate, MessageConverter converter) {
+    public XmlReceiver(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
-        this.converter = converter;
     }
 
     public void handleMessage(NormalizerAggregatorMessage message) {
-//        NormalizerAggregatorMessage normalizerAggregator = (NormalizerAggregatorMessage) converter.fromMessage(message);
-        System.out.println(message.getSsn());
+        System.out.println(message.getInterestRate());
+        rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.aggregatorExchangeName, routingKey, message);
     }
 
     public CountDownLatch getLatch() {

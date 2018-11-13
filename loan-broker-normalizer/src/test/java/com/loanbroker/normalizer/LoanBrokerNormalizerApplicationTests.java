@@ -1,4 +1,4 @@
-package com.loanbroker.aggregator;
+package com.loanbroker.normalizer;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -8,9 +8,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class LoanBrokerAggregatorApplicationTests {
+public class LoanBrokerNormalizerApplicationTests {
+
     @Test
     public void initialTest() {
         Assert.assertTrue(true);
     }
+
 }
