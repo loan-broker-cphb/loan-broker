@@ -30,7 +30,7 @@ jobs:
         # fallback to using the latest cache if no exact match is found
         - v1-dependencies-
     - run: mvn clean install -DskipTests
-    - run: mvn spring-boot:test -Dspring.profiles.active=circleci
+    - run: ./loan-broker-normalizer/mvnw test -Dspring.profiles.active=circleci
     - save_cache:
         paths:
         - ~/.m2
