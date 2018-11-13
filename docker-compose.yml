@@ -17,6 +17,13 @@ services:
     depends_on:
       - rabbitmq
 
+  loan-broker-normalizer:
+    build:
+      context: ./loan-broker-normalizer
+      dockerfile: Dockerfile
+    depends_on:
+    - rabbitmq
+
   rabbitmq:
     image: rabbitmq:3.7.8-management
     ports:
