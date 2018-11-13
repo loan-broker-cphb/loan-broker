@@ -13,7 +13,7 @@
 
     <parent>
         <artifactId>loan-broker</artifactId>
-        <groupId>com.loanbroaker</groupId>
+        <groupId>com.loanbroker</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
