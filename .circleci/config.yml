@@ -7,12 +7,12 @@ jobs:
   build:
     docker:
     # specify the version you desire here
-    - image: circleci/openjdk:8-jdk
+    - image: circleci/openjdk:8u171-jdk
+    - image: rabbitmq:3.7.8
 
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
     # documented at https://circleci.com/docs/2.0/circleci-images/
-     - image: rabbitmq:3.7.8
 
     working_directory: ~/repo
 
@@ -29,14 +29,11 @@ jobs:
         - v1-dependencies-{{ checksum "pom.xml" }}
         # fallback to using the latest cache if no exact match is found
         - v1-dependencies-
-
-    - run: mvn dependency:go-offline
-
+    - run: mvn clean install -DskipTests
+    - run: cd loan-broker-normalizer && ./mvnw test
+    - run: cd loan-broker-aggregator && ./mvnw test
     - save_cache:
         paths:
         - ~/.m2
         key: v1-dependencies-{{ checksum "pom.xml" }}
-
-    # build and run tests!
-    - run: mvn install
 
