@@ -1,4 +1,4 @@
-package com.loanbroker.normalizer;
+package com.loanbroker.utils;
 
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
