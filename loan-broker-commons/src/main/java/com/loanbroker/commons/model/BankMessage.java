@@ -1,14 +1,15 @@
 package com.loanbroker.commons.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class JsonBankMessage {
+public class BankMessage implements Serializable {
     private int ssn;
     private int creditScore;
     private BigDecimal loanAmount;
     private int loanDuration;
 
-    public JsonBankMessage() {
+    public BankMessage() {
     }
 
     public int getSsn() {

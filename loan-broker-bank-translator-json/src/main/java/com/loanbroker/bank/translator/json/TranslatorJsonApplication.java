@@ -1,5 +1,6 @@
 package com.loanbroker.bank.translator.json;
 
+import com.loanbroker.commons.model.BankMessage;
 import com.loanbroker.utils.ConnectionFactoryBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
@@ -7,6 +8,8 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.amqp.support.converter.ClassMapper;
+import org.springframework.amqp.support.converter.DefaultClassMapper;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.SpringApplication;
@@ -43,8 +46,8 @@ public class TranslatorJsonApplication {
     }
 
     @Bean
-    SimpleMessageListenerContainer container(MessageListenerAdapter listenerAdapter) {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+    SimpleMessageListenerContainer container(ConnectionFactory factory, MessageListenerAdapter listenerAdapter) {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(factory);
         container.addQueueNames(queueName);
         container.setMessageListener(listenerAdapter);
         return container;
@@ -52,12 +55,26 @@ public class TranslatorJsonApplication {
 
     @Bean
     MessageListenerAdapter listenerAdapter(MessageReceiver receiver) {
-        return new MessageListenerAdapter(receiver);
+        return new MessageListenerAdapter(receiver, fromJsonConverter());
     }
 
     @Bean
     MessageConverter jsonConverter() {
         return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
+    ClassMapper jsonBankMessageClassMapper() {
+        DefaultClassMapper mapper = new DefaultClassMapper();
+        mapper.setDefaultType(BankMessage.class);
+        return mapper;
+    }
+
+    @Bean
+    MessageConverter fromJsonConverter() {
+        Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
+        converter.setClassMapper(jsonBankMessageClassMapper());
+        return converter;
     }
 
     public static void main(String[] args) {
