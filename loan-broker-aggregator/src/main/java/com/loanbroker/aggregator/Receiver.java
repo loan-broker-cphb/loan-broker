@@ -12,19 +12,14 @@ public class Receiver {
     private CountDownLatch latch = new CountDownLatch(1);
 
     private final RabbitTemplate rabbitTemplate;
-    private final MessageConverter converter;
 
-    public Receiver(RabbitTemplate rabbitTemplate, MessageConverter converter) {
+    public Receiver(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
-        this.converter = converter;
     }
 
     public void handleMessage(NormalizerAggregatorMessage message) {
-//        NormalizerAggregatorMessage normalizerAggregator = (NormalizerAggregatorMessage) converter.fromMessage(message);
+        System.out.println("Aggregator received message:");
         System.out.println(message.getSsn());
-    }
-
-    public CountDownLatch getLatch() {
-        return latch;
+        System.out.println(message.getBank().toString());
     }
 }

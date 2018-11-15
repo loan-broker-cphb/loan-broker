@@ -1,6 +1,8 @@
 package com.loanbroker.normalizer;
 
 import com.loanbroker.commons.model.NormalizerAggregatorMessage;
+import com.loanbroker.normalizer.model.BankResponseMessage;
+import com.loanbroker.normalizer.model.BankResponseMessageMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,9 +23,11 @@ public class JsonReceiver {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void handleMessage(NormalizerAggregatorMessage message) {
-        System.out.println(message.getSsn());
-        rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.aggregatorExchangeName, routingKey, message);
+    public void handleMessage(BankResponseMessage message) {
+        NormalizerAggregatorMessage aggregatorMessage = BankResponseMessageMapper.toNormalizerAggregatorMessage(message);
+        aggregatorMessage.setBank(NormalizerAggregatorMessage.Bank.CPHB_JSON);
+        System.out.println(aggregatorMessage.getBank().toString());
+        rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.aggregatorExchangeName, routingKey, aggregatorMessage);
     }
 
     public CountDownLatch getLatch() {

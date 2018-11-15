@@ -1,14 +1,16 @@
-package com.loanbroker.commons.model;
+package com.loanbroker.normalizer.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class NormalizerAggregatorMessage implements Serializable {
-    public NormalizerAggregatorMessage() {}
+public class BankResponseMessage implements Serializable {
 
     private int ssn;
     private BigDecimal interestRate;
-    private Bank bank;
+
+    public BankResponseMessage() {
+
+    }
 
     public int getSsn() {
         return ssn;
@@ -24,18 +26,5 @@ public class NormalizerAggregatorMessage implements Serializable {
 
     public void setInterestRate(BigDecimal interestRate) {
         this.interestRate = interestRate;
-    }
-
-    public Bank getBank() {
-        return bank;
-    }
-
-    public void setBank(Bank bank) {
-        this.bank = bank;
-    }
-
-    public enum Bank {
-        CPHB_XML,
-        CPHB_JSON
     }
 }

@@ -23,16 +23,10 @@ public class LoanBrokerAggregatorApplication {
 
     static final String queueName = "normalizer-aggregator";
 
-    static final String queueName2 = "normalizer-aggregator-2";
 
     @Bean
     Queue queue() {
         return new Queue(queueName, true);
-    }
-
-    @Bean
-    Queue queue2() {
-        return new Queue(queueName2, true);
     }
 
     @Bean
@@ -42,12 +36,7 @@ public class LoanBrokerAggregatorApplication {
 
     @Bean
     Binding binding(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("ping");
-    }
-
-    @Bean
-    Binding binding2(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("ping2");
+        return BindingBuilder.bind(queue).to(exchange).with("normalizer");
     }
 
     @Bean
@@ -55,20 +44,14 @@ public class LoanBrokerAggregatorApplication {
                                              MessageListenerAdapter listenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.addQueueNames(queueName, queueName2);
+        container.addQueueNames(queueName);
         container.setMessageListener(listenerAdapter);
         return container;
     }
 
     @Bean
-    MessageConverter messageConverter() {
-        XmlMapper xmlMapper = new XmlMapper();
-        return new Jackson2XmlMessageConverter(xmlMapper);
-    }
-
-    @Bean
     MessageListenerAdapter listenerAdapter(Receiver receiver) {
-        return new MessageListenerAdapter(receiver, messageConverter());
+        return new MessageListenerAdapter(receiver);
     }
 
     public static void main(String[] args) {
