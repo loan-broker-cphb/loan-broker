@@ -1,15 +1,5 @@
 version: '3.5'
 services:
-  loan-broker-api:
-    build:
-      context: ./loan-broker-api
-      dockerfile: Dockerfile
-    command: mvn spring-boot:run
-    ports:
-      - 8080:8080
-    depends_on:
-      - rabbitmq
-
   loan-broker-aggregator:
     build:
       context: ./loan-broker-aggregator
@@ -20,6 +10,20 @@ services:
   loan-broker-normalizer:
     build:
       context: ./loan-broker-normalizer
+      dockerfile: Dockerfile
+    depends_on:
+    - rabbitmq
+
+  loan-broker-translator-xml:
+    build:
+      context: ./loan-broker-bank-translator-xml
+      dockerfile: Dockerfile
+    depends_on:
+    - rabbitmq
+
+  loan-broker-translator-json:
+    build:
+      context: ./loan-broker-bank-translator-json
       dockerfile: Dockerfile
     depends_on:
     - rabbitmq

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.loanbroker.commons.model.BankMessage;
+import com.loanbroker.commons.model.RabbitTemplateBuilder;
 import com.loanbroker.utils.ConnectionFactoryBuilder;
 import com.loanbroker.utils.DateUtil;
 import org.springframework.amqp.core.DirectExchange;
@@ -28,12 +29,11 @@ public class TranslatorXmlApplication {
 
     @Bean
     RabbitTemplate rabbitTemplate(MessageConverter xmlConverter) {
-        RabbitTemplate template = new RabbitTemplate();
-        ConnectionFactory factory = ConnectionFactoryBuilder.create(bankUri);
-        template.setConnectionFactory(factory);
-        template.setExchange(bankExchange);
-        template.setMessageConverter(xmlConverter);
-        return template;
+        return RabbitTemplateBuilder.newBuilder()
+                .connectionUri(bankUri)
+                .messageConverter(xmlConverter)
+                .exchange(bankExchange)
+                .build();
     }
 
     @Bean
