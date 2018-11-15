@@ -1,6 +1,7 @@
 package com.loanbroker.normalizer;
 
 import com.loanbroker.commons.model.NormalizerAggregatorMessage;
+import com.loanbroker.normalizer.model.BankResponseMessage;
 import com.loanbroker.utils.ConnectionFactoryBuilder;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -12,6 +13,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication
 public class LoanBrokerNormalizerApplication {
@@ -68,23 +72,27 @@ public class LoanBrokerNormalizerApplication {
     }
 
     @Bean
-    ClassMapper normalizerAggregatorMessageClassMapper() {
+    ClassMapper bankResponseMessageClassMapper() {
         DefaultClassMapper mapper = new DefaultClassMapper();
-        mapper.setDefaultType(NormalizerAggregatorMessage.class);
+        mapper.setDefaultType(BankResponseMessage.class);
+        Map<String, Class<?>> idClassMapping = new HashMap<>();
+        idClassMapping.put("com.loanbroker.commons.model.BankMessage", BankResponseMessage.class);
+        idClassMapping.put("com.loanbroker.bank.translator.xml.XmlBankMessage", BankResponseMessage.class);
+        mapper.setIdClassMapping(idClassMapping);
         return mapper;
     }
 
     @Bean
     MessageConverter xmlConverter() {
         Jackson2XmlMessageConverter converter = new Jackson2XmlMessageConverter();
-        converter.setClassMapper(normalizerAggregatorMessageClassMapper());
+        converter.setClassMapper(bankResponseMessageClassMapper());
         return converter;
     }
 
     @Bean
     MessageConverter jsonConverter() {
         Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
-        converter.setClassMapper(normalizerAggregatorMessageClassMapper());
+        converter.setClassMapper(bankResponseMessageClassMapper());
         return converter;
     }
 
