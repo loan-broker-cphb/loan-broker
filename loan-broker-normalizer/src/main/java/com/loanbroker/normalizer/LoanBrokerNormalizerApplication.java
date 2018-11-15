@@ -1,6 +1,7 @@
 package com.loanbroker.normalizer;
 
 import com.loanbroker.commons.model.NormalizerAggregatorMessage;
+import com.loanbroker.utils.ConnectionFactoryBuilder;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
