@@ -21,3 +21,18 @@ See the project description [here](https://github.com/datsoftlyngby/soft2018fall
 5. Collect responses from each selected bank.
 6. Determine the best response.
 7. Pass the result back to the consumer.
+
+
+## Run this project
+Running the project like specified will start up all the components in the correct order.
+This also assumes that you have a 
+### Prerequisites
+- Java 8
+- Maven
+- Docker
+
+### How to run the project
+1. Clone the project
+2. `cd` into the base directory
+3. Run `mvn package`
+4. Run `docker-compose up -d`

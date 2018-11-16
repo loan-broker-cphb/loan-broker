@@ -1,7 +1,7 @@
 package com.loanbroker.bank.translator.json;
 
 import com.loanbroker.commons.model.BankMessage;
-import com.loanbroker.utils.ConnectionFactoryBuilder;
+import com.loanbroker.commons.model.RabbitTemplateBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -27,12 +27,11 @@ public class TranslatorJsonApplication {
 
     @Bean
     RabbitTemplate rabbitTemplate(MessageConverter jsonConverter) {
-        RabbitTemplate template = new RabbitTemplate();
-        ConnectionFactory factory = ConnectionFactoryBuilder.create(bankUri);
-        template.setConnectionFactory(factory);
-        template.setExchange(bankExchange);
-        template.setMessageConverter(jsonConverter);
-        return template;
+        return RabbitTemplateBuilder.newBuilder()
+                .connectionUri(bankUri)
+                .messageConverter(jsonConverter)
+                .exchange(bankExchange)
+                .build();
     }
 
     @Bean

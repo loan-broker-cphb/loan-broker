@@ -1,6 +1,7 @@
 package com.loanbroker.normalizer;
 
 import com.loanbroker.commons.model.NormalizerAggregatorMessage;
+import com.loanbroker.commons.model.RabbitTemplateBuilder;
 import com.loanbroker.normalizer.model.BankResponseMessage;
 import com.loanbroker.utils.ConnectionFactoryBuilder;
 import org.springframework.amqp.core.*;
@@ -45,10 +46,9 @@ public class LoanBrokerNormalizerApplication {
 
     @Bean
     RabbitTemplate rabbitTemplate() {
-        RabbitTemplate template = new RabbitTemplate();
-        ConnectionFactory factory = ConnectionFactoryBuilder.create(aggregatorAmqpUrl);
-        template.setConnectionFactory(factory);
-        return template;
+        return RabbitTemplateBuilder.newBuilder()
+                .connectionUri(aggregatorAmqpUrl)
+                .build();
     }
 
     @Bean
