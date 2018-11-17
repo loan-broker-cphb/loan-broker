@@ -42,4 +42,11 @@ public class Receiver {
         }
         return creditScore;
     }
+
+//        public static void main(String[] args) {
+//        System.out.println(getCreditScore("110292-1234"));
+//        System.out.println(getCreditScore("110292-1234"));
+//        System.out.println(getCreditScore("110292-1234"));
+//        System.out.println(getCreditScore("110292-1234"));
+//    }
 }
