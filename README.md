@@ -46,4 +46,4 @@ This also assumes that you have a
 - [Rule Base](https://github.com/loan-broker-cphb/rule-base)
 > an external SOAP web service that determines the most appropriate banks to contact. See the [documentation](https://github.com/loan-broker-cphb/rule-base).
 - [Get Banks](https://github.com/loan-broker-cphb/loan-broker/tree/master/loan-broker-get-banks)
->
+> to be continued....
