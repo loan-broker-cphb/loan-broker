@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "CreditScoreService", targetNamespace = "http://service.web.credit.bank.org/", wsdlLocation = "file:/home/cjs/Desktop/SOFTDEV_2nd/LoanBrokerProject/loan-broker/loan-broker-credit-score/src/creditbureau/CreditScoreService.wsdl")
+@WebServiceClient(name = "CreditScoreService", targetNamespace = "http://service.web.credit.bank.org/", wsdlLocation = "http://datdb.cphbusiness.dk:8080/CreditScoreService/CreditScoreService?wsdl")
 public class CreditScoreService_Service
     extends Service
 {
@@ -30,7 +30,7 @@ public class CreditScoreService_Service
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/home/cjs/Desktop/SOFTDEV_2nd/LoanBrokerProject/loan-broker/loan-broker-credit-score/src/creditbureau/CreditScoreService.wsdl");
+            url = new URL("http://datdb.cphbusiness.dk:8080/CreditScoreService/CreditScoreService?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
