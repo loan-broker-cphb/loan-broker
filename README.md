@@ -16,9 +16,9 @@ See the project description [here](https://github.com/datsoftlyngby/soft2018fall
 ### The Message Flow
 1. Receive the consumer's loan quote request.
 2. Obtain the credit score and history from credit agency.
-3. Determine the most appropriate banks to contact.
-4. Send a request to each selected bank.
-5. Collect responses from each selected bank.
+3. Determine the most appropriate bankDtos to contact.
+4. Send a request to each selected bankDto.
+5. Collect responses from each selected bankDto.
 6. Determine the best response.
 7. Pass the result back to the consumer.
 

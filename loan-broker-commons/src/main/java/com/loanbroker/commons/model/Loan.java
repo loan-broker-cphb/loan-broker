@@ -9,7 +9,7 @@ public class Loan {
     private String loanDuration;
     private int creditScore;
     private ArrayList<String> rulebaseBanks;
-    private ArrayList<Bank> banks = new ArrayList<>();
+    private ArrayList<BankDto> bankDtos = new ArrayList<>();
 
 
     public Loan(String ssn, float loanAmount, String loanDuration) {
@@ -33,8 +33,8 @@ public class Loan {
         this.ssn = ssn;
     }
 
-    public void addBank(Bank bank) {
-        banks.add(bank);
+    public void addBank(BankDto bankDto) {
+        bankDtos.add(bankDto);
     }
 
     public String getSsn() {
@@ -78,12 +78,12 @@ public class Loan {
     }
 
 
-    public ArrayList<Bank> getBanks() {
-        return banks;
+    public ArrayList<BankDto> getBankDtos() {
+        return bankDtos;
     }
 
-    public void setBanks(ArrayList<Bank> banks) {
-        this.banks = banks;
+    public void setBankDtos(ArrayList<BankDto> bankDtos) {
+        this.bankDtos = bankDtos;
     }
 
 }
