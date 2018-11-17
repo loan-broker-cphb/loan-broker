@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class LoanBrokerCreditScoreApplication {
 
-	static final String directExchangeName = "direct.test";
+	static final String getBanksExchangeName = "direct.test";
 
 	static final String queueName = "loanrequest-getcreditscore";
 
@@ -26,7 +26,7 @@ public class LoanBrokerCreditScoreApplication {
 
 	@Bean
 	DirectExchange exchange() {
-		return new DirectExchange(directExchangeName);
+		return new DirectExchange(getBanksExchangeName);
 	}
 
 	@Bean

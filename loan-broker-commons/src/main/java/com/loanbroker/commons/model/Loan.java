@@ -1,14 +1,15 @@
 package com.loanbroker.commons.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Loan {
+public class Loan  implements Serializable {
 
     private String ssn;
     private float loanAmount;
     private String loanDuration;
     private int creditScore;
-    private ArrayList<String> rulebaseBanks;
+    private ArrayList<String> rulebaseBanks; // ??? why there are 2 lists of banks
     private ArrayList<Bank> banks = new ArrayList<>();
 
 
