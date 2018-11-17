@@ -1,8 +1,9 @@
 package com.loanbroker.commons.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Loan {
+public class Loan  implements Serializable {
 
     private String ssn;
     private float loanAmount;
