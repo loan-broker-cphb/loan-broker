@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
 
-    <artifactId>loan-broker-bank-translator-json</artifactId>
+    <artifactId>loan-broker-bankDto-translator-json</artifactId>
 
     <dependencies>
         <dependency>

@@ -1,5 +1,6 @@
 package com.loanbroker.normalizer;
 
+import com.loanbroker.commons.model.Bank;
 import com.loanbroker.commons.model.NormalizerAggregatorMessage;
 import com.loanbroker.normalizer.model.BankResponseMessage;
 import com.loanbroker.normalizer.model.BankResponseMessageMapper;
@@ -25,7 +26,7 @@ public class JsonReceiver {
 
     public void handleMessage(BankResponseMessage message) {
         NormalizerAggregatorMessage aggregatorMessage = BankResponseMessageMapper.toNormalizerAggregatorMessage(message);
-        aggregatorMessage.setBank(NormalizerAggregatorMessage.Bank.CPHB_JSON);
+        aggregatorMessage.setBank(Bank.CPHB_JSON);
         System.out.println(aggregatorMessage.getBank().toString());
         rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.aggregatorExchangeName, routingKey, aggregatorMessage);
     }
