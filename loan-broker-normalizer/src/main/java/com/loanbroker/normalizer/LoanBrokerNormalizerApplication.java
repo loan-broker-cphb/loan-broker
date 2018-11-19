@@ -1,10 +1,9 @@
 package com.loanbroker.normalizer;
 
-import com.loanbroker.commons.model.NormalizerAggregatorMessage;
 import com.loanbroker.commons.model.RabbitTemplateBuilder;
 import com.loanbroker.normalizer.model.BankResponseMessage;
-import com.loanbroker.utils.ConnectionFactoryBuilder;
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;

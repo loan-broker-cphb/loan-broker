@@ -2,6 +2,8 @@ package com.loanbroker.bank.translator.json;
 
 import com.loanbroker.commons.model.BankMessage;
 import com.loanbroker.commons.model.RabbitTemplateBuilder;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -16,6 +18,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @SpringBootApplication
 public class TranslatorJsonApplication {
 
@@ -23,6 +28,7 @@ public class TranslatorJsonApplication {
     private static final String exchangeName = "translator.exch";
     private static final String bankUri = "amqp://guest:guest@datdb.cphbusiness.dk:5672";
     private final String bankExchange = "cphbusiness.bankJSON";
+    private final String routingKey = "CPHB_JSON";
 
 
     @Bean
@@ -42,6 +48,11 @@ public class TranslatorJsonApplication {
     @Bean
     DirectExchange exchange() {
         return new DirectExchange(exchangeName);
+    }
+
+    @Bean
+    Binding binding() {
+        return BindingBuilder.bind(queue()).to(exchange()).with(routingKey);
     }
 
     @Bean
@@ -66,6 +77,9 @@ public class TranslatorJsonApplication {
     ClassMapper jsonBankMessageClassMapper() {
         DefaultClassMapper mapper = new DefaultClassMapper();
         mapper.setDefaultType(BankMessage.class);
+        Map<String, Class<?>> idClassMapping = new HashMap<>();
+        idClassMapping.put("com.loanbroker.commons.model.BankMessage", BankMessage.class);
+        mapper.setIdClassMapping(idClassMapping);
         return mapper;
     }
 
