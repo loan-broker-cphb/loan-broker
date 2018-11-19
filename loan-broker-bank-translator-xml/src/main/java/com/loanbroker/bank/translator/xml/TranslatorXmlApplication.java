@@ -1,22 +1,28 @@
 package com.loanbroker.bank.translator.xml;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.loanbroker.commons.model.BankMessage;
 import com.loanbroker.commons.model.RabbitTemplateBuilder;
-import com.loanbroker.utils.ConnectionFactoryBuilder;
 import com.loanbroker.utils.DateUtil;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
-import org.springframework.amqp.support.converter.*;
+import org.springframework.amqp.support.converter.ClassMapper;
+import org.springframework.amqp.support.converter.DefaultClassMapper;
+import org.springframework.amqp.support.converter.Jackson2XmlMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication
 public class TranslatorXmlApplication {
@@ -25,6 +31,7 @@ public class TranslatorXmlApplication {
     private static final String exchangeName = "translator.exch";
     private static final String bankUri = "amqp://guest:guest@datdb.cphbusiness.dk:5672";
     private final String bankExchange = "cphbusiness.bankXML";
+    private final String routingKey = "CPHB_XML";
 
 
     @Bean
@@ -44,6 +51,11 @@ public class TranslatorXmlApplication {
     @Bean
     DirectExchange exchange() {
         return new DirectExchange(exchangeName);
+    }
+
+    @Bean
+    Binding binding() {
+        return BindingBuilder.bind(queue()).to(exchange()).with(routingKey);
     }
 
     @Bean
@@ -76,6 +88,9 @@ public class TranslatorXmlApplication {
     ClassMapper bankMessageClassMapper() {
         DefaultClassMapper mapper = new DefaultClassMapper();
         mapper.setDefaultType(BankMessage.class);
+        Map<String, Class<?>> idClassMapping = new HashMap<>();
+        idClassMapping.put("com.loanbroker.commons.model.BankMessage", BankMessage.class);
+        mapper.setIdClassMapping(idClassMapping);
         return mapper;
     }
 
