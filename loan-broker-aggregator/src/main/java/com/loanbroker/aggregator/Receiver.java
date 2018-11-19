@@ -1,8 +1,8 @@
 package com.loanbroker.aggregator;
 
+import com.loanbroker.commons.db.Result;
+import com.loanbroker.commons.db.ResultRepository;
 import com.loanbroker.commons.model.NormalizerAggregatorMessage;
-import com.loanbroker.commons.model.Result;
-import com.loanbroker.commons.repository.ResultRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

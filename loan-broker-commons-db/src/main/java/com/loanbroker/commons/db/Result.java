@@ -1,4 +1,4 @@
-package com.loanbroker.commons.model;
+package com.loanbroker.commons.db;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

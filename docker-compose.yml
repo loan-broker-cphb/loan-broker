@@ -36,6 +36,8 @@ services:
 
   postgres:
     image: postgres:11.1
+    environment:
+      - POSTGRES_PASSWORD=password
     ports:
       - 3306:5432
 

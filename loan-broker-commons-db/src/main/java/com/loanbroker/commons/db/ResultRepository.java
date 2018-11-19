@@ -1,6 +1,5 @@
-package com.loanbroker.commons.repository;
+package com.loanbroker.commons.db;
 
-import com.loanbroker.commons.model.Result;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
