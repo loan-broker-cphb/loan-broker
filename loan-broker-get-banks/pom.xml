@@ -11,5 +11,76 @@
 
     <artifactId>loan-broker-get-banks</artifactId>
 
+    <properties>
+        <wsdl.url>http://localhost:8091/ws/rulebase</wsdl.url>
+        <wsdl.service.url>http://localhost:8091/ws/rulebase</wsdl.service.url>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>${fasterxml.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.loanbroker</groupId>
+            <artifactId>loan-broker-commons</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.loanbroker</groupId>
+            <artifactId>loan-broker-utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ws</groupId>
+            <artifactId>spring-ws-core</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- tag::wsdl[] -->
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>0.13.3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <schemaLanguage>WSDL</schemaLanguage>
+                    <generatePackage>com.loanbroker.get.banks.wsdl</generatePackage>
+                    <schemas>
+                        <schema>
+                            <url>${wsdl.url}</url>
+                        </schema>
+                    </schemas>
+                </configuration>
+            </plugin>
+            <!-- end::wsdl[] -->
+        </plugins>
+    </build>
+
 
 </project>
