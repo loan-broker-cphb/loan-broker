@@ -34,6 +34,11 @@ services:
       - 15672:15672
       - 5672:5672
 
+  postgres:
+    image: postgres:11.1
+    ports:
+      - 3306:5432
+
 networks:
   default:
     driver: bridge
