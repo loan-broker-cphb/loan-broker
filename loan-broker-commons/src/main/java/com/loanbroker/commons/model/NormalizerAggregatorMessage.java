@@ -34,8 +34,4 @@ public class NormalizerAggregatorMessage implements Serializable {
         this.bank = bank;
     }
 
-    public enum Bank {
-        CPHB_XML,
-        CPHB_JSON
-    }
 }

@@ -1,5 +1,6 @@
 package com.loanbroker.normalizer;
 
+import com.loanbroker.commons.model.Bank;
 import com.loanbroker.commons.model.NormalizerAggregatorMessage;
 import com.loanbroker.normalizer.model.BankResponseMessage;
 import com.loanbroker.normalizer.model.BankResponseMessageMapper;
@@ -25,7 +26,7 @@ public class XmlReceiver {
 
     public void handleMessage(BankResponseMessage message) {
         NormalizerAggregatorMessage aggregatorMessage = BankResponseMessageMapper.toNormalizerAggregatorMessage(message);
-        aggregatorMessage.setBank(NormalizerAggregatorMessage.Bank.CPHB_XML);
+        aggregatorMessage.setBank(Bank.CPHB_XML);
         rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.aggregatorExchangeName, routingKey, aggregatorMessage);
     }
 

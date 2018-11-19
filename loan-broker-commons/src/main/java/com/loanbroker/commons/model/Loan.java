@@ -9,9 +9,8 @@ public class Loan  implements Serializable {
     private float loanAmount;
     private String loanDuration;
     private int creditScore;
-    private ArrayList<String> rulebaseBanks; // ??? why there are 2 lists of banks
-    private ArrayList<Bank> banks = new ArrayList<>();
-
+    private ArrayList<String> rulebaseBanks;
+    private ArrayList<BankDto> bankDtos = new ArrayList<>();
 
     public Loan(String ssn, float loanAmount, String loanDuration) {
         this.ssn = ssn;
@@ -34,8 +33,8 @@ public class Loan  implements Serializable {
         this.ssn = ssn;
     }
 
-    public void addBank(Bank bank) {
-        banks.add(bank);
+    public void addBank(BankDto bankDto) {
+        bankDtos.add(bankDto);
     }
 
     public String getSsn() {
@@ -79,12 +78,12 @@ public class Loan  implements Serializable {
     }
 
 
-    public ArrayList<Bank> getBanks() {
-        return banks;
+    public ArrayList<BankDto> getBankDtos() {
+        return bankDtos;
     }
 
-    public void setBanks(ArrayList<Bank> banks) {
-        this.banks = banks;
+    public void setBankDtos(ArrayList<BankDto> bankDtos) {
+        this.bankDtos = bankDtos;
     }
 
 }

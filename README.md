@@ -10,19 +10,6 @@ See the project description [here](https://github.com/datsoftlyngby/soft2018fall
 - Mahnaz Karimi (cph-mk406)
 ***
 
-### Loan Broker Design
-![image](https://user-images.githubusercontent.com/16150075/47963816-60fcce00-e031-11e8-872c-cbd7dd077dd1.png)
-
-### The Message Flow
-1. Receive the consumer's loan quote request.
-2. Obtain the credit score and history from credit agency.
-3. Determine the most appropriate banks to contact.
-4. Send a request to each selected bank.
-5. Collect responses from each selected bank.
-6. Determine the best response.
-7. Pass the result back to the consumer.
-
-
 ## Run this project
 Running the project like specified will start up all the components in the correct order.
 This also assumes that you have a 
@@ -36,3 +23,27 @@ This also assumes that you have a
 2. `cd` into the base directory
 3. Run `mvn package`
 4. Run `docker-compose up -d`
+
+### Loan Broker Design
+![image](https://user-images.githubusercontent.com/16150075/47963816-60fcce00-e031-11e8-872c-cbd7dd077dd1.png)
+
+### The Message Flow
+1. Receive the consumer's loan quote request.
+2. Obtain the credit score and history from credit agency.
+3. Determine the most appropriate banks to contact.
+4. Send a request to each selected bank.
+5. Collect responses from each selected bank.
+6. Determine the best response.
+7. Pass the result back to the consumer.
+
+### Loan Broker Components
+- [Web Application/Client](https://github.com/loan-broker-cphb/loan-broker-web-app)
+> a simple web application made in nodejs that can accept loan request and display the best quote.
+- Credit Bureau
+> a given external component that returns the credit score based on SSN from the service here: http://datdb.cphbusiness.dk:8080/CreditScoreService/CreditScoreService?wsdl 
+- [Get Credit Score](https://github.com/loan-broker-cphb/loan-broker/tree/master/loan-broker-credit-score)
+> consumes from the loanrequest queue, get the credit score from the credit bureau, and then sends the loan request to getbanks queue.
+- [Rule Base](https://github.com/loan-broker-cphb/rule-base)
+> an external SOAP web service that determines the most appropriate banks to contact. See the [documentation](https://github.com/loan-broker-cphb/rule-base).
+- [Get Banks](https://github.com/loan-broker-cphb/loan-broker/tree/master/loan-broker-get-banks)
+> to be continued....
