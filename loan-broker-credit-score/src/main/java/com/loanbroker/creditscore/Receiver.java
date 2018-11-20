@@ -32,7 +32,7 @@ public class Receiver {
         result.setLoanAmount(message.getLoanAmount());
         result.setLoanDuration(message.getLoanDuration());
         result.setSsn(message.getSsn());
-        result.setCreditScore(getCreditScore(Integer.toString(message.getSsn())));
+        result.setCreditScore(getCreditScore(Long.toString(message.getSsn())));
         rabbitTemplate.convertAndSend(LoanBrokerCreditScoreApplication.getBanksExchangeName, routingKey, result);
     }
 
