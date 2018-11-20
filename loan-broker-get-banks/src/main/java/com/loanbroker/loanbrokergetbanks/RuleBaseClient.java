@@ -1,23 +1,18 @@
 package com.loanbroker.loanbrokergetbanks;
 
+import com.loanbroker.commons.model.Bank;
+import com.loanbroker.commons.model.CreditScoreToGetBanksDto;
+import com.loanbroker.commons.model.GetBanksToGateway;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import rulebase.Bank;
 import rulebase.BankService;
 import rulebase.BankService_Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 @Component
 public class RuleBaseClient {
-
-    @Value("${getbanks.routingkey}")
-    private String routingKey;
-
-    private CountDownLatch latch = new CountDownLatch(1);
 
     private final RabbitTemplate rabbitTemplate;
 
@@ -25,24 +20,27 @@ public class RuleBaseClient {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void handleMessage(int creditScore, double loanAmount) {
+    public void handleMessage(CreditScoreToGetBanksDto creditScoreToGetBanksDto) {
         System.out.println("GetCreditScore received message:");
-        System.out.println(creditScore);
-        System.out.println(loanAmount);
-        List<Bank> banks = getBanks(creditScore,loanAmount);
-        rabbitTemplate.convertAndSend(LoanBrokerGetBanksApplication.recipListExchangeName, routingKey, banks);
+        System.out.println(creditScoreToGetBanksDto.getCreditScore());
+        System.out.println(creditScoreToGetBanksDto.getLoanAmount());
+        List<Bank> banks = getBanks(creditScoreToGetBanksDto.getCreditScore(), creditScoreToGetBanksDto.getLoanAmount().doubleValue());
+        GetBanksToGateway getBanksToGateway = new GetBanksToGateway();
+        getBanksToGateway.setBanks(banks);
+
+        rabbitTemplate.convertAndSend(LoanBrokerGetBanksApplication.gatewayQueue, getBanksToGateway);
     }
 
     public List<Bank> getBanks(int creditScore, double loanAmount){
         BankService_Service service = new BankService_Service();
         BankService port = service.getBankServicePort();
-        List<Bank> banks = new ArrayList();
-        banks = port.makeLoan(creditScore, loanAmount);
-        for (Bank b:banks) {
-            System.out.println("THE BANK: " + b.getName());
-            System.out.println("THE ROUTING KEY: " + b.getRoutingKey());
+        List<rulebase.Bank> rulebaseBanks = port.makeLoan(creditScore, loanAmount);
+        List<Bank> banks = new ArrayList<>();
+        for (rulebase.Bank b : rulebaseBanks) {
+            Bank bank = Bank.valueOf(b.getRoutingKey());
+            banks.add(bank);
         }
-        return null;
+        return banks;
     }
 
 //    public static void main(String[] args) {

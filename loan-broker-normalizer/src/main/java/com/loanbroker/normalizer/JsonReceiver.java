@@ -28,7 +28,7 @@ public class JsonReceiver {
         NormalizerAggregatorMessage aggregatorMessage = BankResponseMessageMapper.toNormalizerAggregatorMessage(message);
         aggregatorMessage.setBank(Bank.CPHB_JSON);
         System.out.println(aggregatorMessage.getBank().toString());
-        rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.aggregatorExchangeName, routingKey, aggregatorMessage);
+        rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.aggregatorQueueName, aggregatorMessage);
     }
 
     public CountDownLatch getLatch() {

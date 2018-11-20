@@ -8,15 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.concurrent.CountDownLatch;
 
 @Component
 public class Receiver {
 
     @Autowired
     private ResultRepository repository;
-
-    private CountDownLatch latch = new CountDownLatch(1);
 
     private final RabbitTemplate rabbitTemplate;
 

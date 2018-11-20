@@ -2,7 +2,6 @@ package com.loanbroker.normalizer;
 
 import com.loanbroker.commons.model.RabbitTemplateBuilder;
 import com.loanbroker.normalizer.model.BankResponseMessage;
-import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -20,10 +19,9 @@ import java.util.Map;
 @SpringBootApplication
 public class LoanBrokerNormalizerApplication {
 
-    static final String aggregatorExchangeName = "direct.test";
-
     private static final String jsonQueueName = "g4.json.reply-to";
     private static final String xmlQueueName = "g4.xml.reply-to";
+    static final String aggregatorQueueName = "aggregator";
 
     @Value("${aggregator.amqp.url}")
     private String aggregatorAmqpUrl;
@@ -39,8 +37,8 @@ public class LoanBrokerNormalizerApplication {
     }
 
     @Bean
-    DirectExchange exchange() {
-        return new DirectExchange(aggregatorExchangeName);
+    Queue aggregatorQueue() {
+        return new Queue(aggregatorQueueName, true);
     }
 
     @Bean

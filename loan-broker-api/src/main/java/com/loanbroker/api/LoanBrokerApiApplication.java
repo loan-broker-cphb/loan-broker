@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan("com.loanbroker.commons.db")
 public class LoanBrokerApiApplication {
 
-    public static final String creditScoreQueue = "creditscore";
+    public static final String creditScoreQueue = "loanrequest.getcreditscore";
 
     @Bean
     Queue queue() {
