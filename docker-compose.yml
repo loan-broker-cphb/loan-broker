@@ -17,6 +17,7 @@ services:
     depends_on:
     - rabbitmq
     - postgres
+    - loan-broker-credit-score
 
   loan-broker-normalizer:
     build:
@@ -24,6 +25,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
     - rabbitmq
+    - loan-broker-aggregator
 
   loan-broker-translator-xml:
     build:
@@ -45,6 +47,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
     - rabbitmq
+    - loan-broker-gateway
 
   loan-broker-gateway:
     build:
@@ -52,6 +55,8 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - rabbitmq
+      - loan-broker-translator-json
+      - loan-broker-translator-xml
 
   loan-broker-get-banks:
     build:
@@ -59,6 +64,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - rabbitmq
+      - loan-broker-gateway
 
   rabbitmq:
     image: rabbitmq:3.7.8-management
