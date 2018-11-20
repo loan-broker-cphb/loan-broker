@@ -1,6 +1,7 @@
 package com.loanbroker.creditscore;
 
-import com.loanbroker.commons.model.Loan;
+import com.loanbroker.commons.model.CreditScoreToGetBanksDto;
+import com.loanbroker.commons.model.QuoteRequest;
 import creditbureau.CreditScoreService;
 import creditbureau.CreditScoreService_Service;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -23,12 +24,16 @@ public class Receiver {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void handleMessage(Loan message) {
+    public void handleMessage(QuoteRequest message) {
         System.out.println("GetCreditScore received message:");
         System.out.println(message.getSsn());
-        System.out.println(message.getCreditScore());
-        message.setCreditScore(getCreditScore(message.getSsn()));
-        rabbitTemplate.convertAndSend(LoanBrokerCreditScoreApplication.getBanksExchangeName, routingKey, message);
+
+        CreditScoreToGetBanksDto result = new CreditScoreToGetBanksDto();
+        result.setLoanAmount(message.getLoanAmount());
+        result.setLoanDuration(message.getLoanDuration());
+        result.setSsn(message.getSsn());
+        result.setCreditScore(getCreditScore(Integer.toString(message.getSsn())));
+        rabbitTemplate.convertAndSend(LoanBrokerCreditScoreApplication.getBanksExchangeName, routingKey, result);
     }
 
     public int getCreditScore(String ssn){

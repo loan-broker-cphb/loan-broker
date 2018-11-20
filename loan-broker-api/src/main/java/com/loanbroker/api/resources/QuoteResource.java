@@ -3,6 +3,7 @@ package com.loanbroker.api.resources;
 import com.loanbroker.api.LoanBrokerApiApplication;
 import com.loanbroker.commons.db.Result;
 import com.loanbroker.commons.db.ResultRepository;
+import com.loanbroker.commons.model.QuoteRequest;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.loanbroker.api.resources;
+package com.loanbroker.commons.model;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
