@@ -1,10 +1,7 @@
 package com.loanbroker.bank.translator.rabbit;
 
 import com.loanbroker.commons.model.RabbitTemplateBuilder;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -18,16 +15,16 @@ public class TranslatorRabbitApplication {
 
     private static final String queueName = "bank.rabbit.translator";
     private static final String exchangeName = "translator.exch";
-    private static final String bankUri = "amqp://guest:guest@datdb.cphbusiness.dk:5672";
-    private final String bankExchange = "cphbusiness.bankJSON";
+//    private static final String bankUri = "amqp://guest:guest@datdb.cphbusiness.dk:5672";
+//    private final String bankExchange = "cphbusiness.bankRabbit";
     private final String routingKey = "G4_RABBIT";
 
 
     @Bean
     RabbitTemplate rabbitTemplate() {
         return RabbitTemplateBuilder.newBuilder()
-                .connectionUri(bankUri)
-                .exchange(bankExchange)
+//                .connectionUri(bankUri)
+//                .exchange(bankExchange)
                 .build();
     }
 
@@ -47,8 +44,9 @@ public class TranslatorRabbitApplication {
     }
 
     @Bean
-    SimpleMessageListenerContainer container(ConnectionFactory factory, MessageListenerAdapter listenerAdapter) {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(factory);
+    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
+        container.setConnectionFactory(connectionFactory);
         container.addQueueNames(queueName);
         container.setMessageListener(listenerAdapter);
         return container;
@@ -59,7 +57,5 @@ public class TranslatorRabbitApplication {
         return new MessageListenerAdapter(receiver);
     }
 
-    public static void main(String[] args) {
-        SpringApplication.run(TranslatorRabbitApplication.class, args);
-    }
+    public static void main(String[] args) { SpringApplication.run(TranslatorRabbitApplication.class, args); }
 }
