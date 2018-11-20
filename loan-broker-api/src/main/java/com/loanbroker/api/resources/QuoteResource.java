@@ -24,7 +24,7 @@ public class QuoteResource {
     RabbitTemplate template;
 
     @GetMapping("/{ssn}")
-    public Result getQuote(@PathVariable("ssn") Long ssn) {
+    public Result getQuote(@PathVariable("ssn") String ssn) {
         return repository.findById(ssn).get();
     }
 

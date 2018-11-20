@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class QuoteRequest implements Serializable {
 
     @NotNull
-    private long ssn;
+    private String ssn;
 
     @NotNull
     private BigDecimal loanAmount;
@@ -18,11 +18,11 @@ public class QuoteRequest implements Serializable {
     public QuoteRequest() {
     }
 
-    public long getSsn() {
+    public String getSsn() {
         return ssn;
     }
 
-    public void setSsn(long ssn) {
+    public void setSsn(String ssn) {
         this.ssn = ssn;
     }
 

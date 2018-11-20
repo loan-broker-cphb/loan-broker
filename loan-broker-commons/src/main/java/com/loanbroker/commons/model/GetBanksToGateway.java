@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class GetBanksToGateway implements Serializable {
-    private long ssn;
+    private String ssn;
     private int creditScore;
     private BigDecimal loanAmount;
     private int duration;
@@ -15,11 +15,11 @@ public class GetBanksToGateway implements Serializable {
     public GetBanksToGateway() {
     }
 
-    public long getSsn() {
+    public String getSsn() {
         return ssn;
     }
 
-    public void setSsn(long ssn) {
+    public void setSsn(String ssn) {
         this.ssn = ssn;
     }
 

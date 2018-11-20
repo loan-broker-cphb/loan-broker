@@ -24,7 +24,8 @@ public class Receiver {
         result.setLoanAmount(message.getLoanAmount());
         result.setLoanDuration(message.getLoanDuration());
         result.setSsn(message.getSsn());
-        result.setCreditScore(getCreditScore(Long.toString(message.getSsn())));
+        result.setCreditScore(getCreditScore(message.getSsn()));
+        System.out.println(result.getCreditScore());
         rabbitTemplate.convertAndSend(LoanBrokerCreditScoreApplication.getBanksQueue, result);
     }
 

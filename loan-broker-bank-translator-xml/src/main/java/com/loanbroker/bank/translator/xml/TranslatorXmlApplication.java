@@ -68,7 +68,7 @@ public class TranslatorXmlApplication {
 
     @Bean
     MessageListenerAdapter listenerAdapter(MessageReceiver receiver) {
-        return new MessageListenerAdapter(receiver, fromXmlConverter());
+        return new MessageListenerAdapter(receiver);
     }
 
     @Bean

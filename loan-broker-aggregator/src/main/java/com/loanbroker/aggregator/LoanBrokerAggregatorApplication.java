@@ -15,7 +15,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan("com.loanbroker.commons.db")
 public class LoanBrokerAggregatorApplication {
 
-    static final String queueName = "normalizer-aggregator";
+    static final String queueName = "aggregator";
 
 
     @Bean

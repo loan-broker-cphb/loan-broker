@@ -65,7 +65,7 @@ public class TranslatorJsonApplication {
 
     @Bean
     MessageListenerAdapter listenerAdapter(MessageReceiver receiver) {
-        return new MessageListenerAdapter(receiver, fromJsonConverter());
+        return new MessageListenerAdapter(receiver);
     }
 
     @Bean

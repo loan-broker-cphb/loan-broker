@@ -33,6 +33,11 @@ public class Receiver {
                 res.setInterestRate(message.getInterestRate());
                 repository.save(res);
             }
+        } else {
+            Result res = new Result();
+            res.setBank(message.getBank().toString());
+            res.setInterestRate(message.getInterestRate());
+            res.setSsn(message.getSsn());
         }
     }
 }

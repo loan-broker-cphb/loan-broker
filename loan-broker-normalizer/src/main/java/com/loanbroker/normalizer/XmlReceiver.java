@@ -10,15 +10,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class XmlReceiver {
 
-    private final RabbitTemplate rabbitTemplate;
+    private final RabbitTemplate localRabbitTemplate;
 
-    public XmlReceiver(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
+    public XmlReceiver(RabbitTemplate localRabbitTemplate) {
+        this.localRabbitTemplate = localRabbitTemplate;
     }
 
     public void handleMessage(BankResponseMessage message) {
         NormalizerAggregatorMessage aggregatorMessage = BankResponseMessageMapper.toNormalizerAggregatorMessage(message);
         aggregatorMessage.setBank(Bank.CPHB_XML);
-        rabbitTemplate.convertAndSend(LoanBrokerNormalizerApplication.aggregatorQueueName, aggregatorMessage);
+        System.out.println(aggregatorMessage.getSsn());
+        localRabbitTemplate.convertAndSend(LocalRabbitConfig.aggregatorQueueName, aggregatorMessage);
     }
 }

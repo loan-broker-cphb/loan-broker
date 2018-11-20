@@ -1,10 +1,9 @@
 package com.loanbroker.normalizer;
 
-import com.loanbroker.commons.model.RabbitTemplateBuilder;
 import com.loanbroker.normalizer.model.BankResponseMessage;
+import com.loanbroker.utils.ConnectionFactoryBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.support.converter.*;
@@ -21,10 +20,9 @@ public class LoanBrokerNormalizerApplication {
 
     private static final String jsonQueueName = "g4.json.reply-to";
     private static final String xmlQueueName = "g4.xml.reply-to";
-    static final String aggregatorQueueName = "aggregator";
 
-    @Value("${aggregator.amqp.url}")
-    private String aggregatorAmqpUrl;
+    @Value("${bank.url}")
+    private String banUrl;
 
     @Bean
     Queue jsonQueue() {
@@ -37,15 +35,8 @@ public class LoanBrokerNormalizerApplication {
     }
 
     @Bean
-    Queue aggregatorQueue() {
-        return new Queue(aggregatorQueueName, true);
-    }
-
-    @Bean
-    RabbitTemplate rabbitTemplate() {
-        return RabbitTemplateBuilder.newBuilder()
-                .connectionUri(aggregatorAmqpUrl)
-                .build();
+    ConnectionFactory connectionFactory() {
+        return ConnectionFactoryBuilder.create(banUrl);
     }
 
     @Bean
