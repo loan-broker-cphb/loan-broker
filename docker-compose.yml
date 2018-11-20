@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - rabbitmq
+      - postgres
 
   loan-broker-normalizer:
     build:
