@@ -14,7 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class TranslatorJsonApplication {
+public class TranslatorRabbitApplication {
 
     private static final String queueName = "bank.rabbit.translator";
     private static final String exchangeName = "translator.exch";
@@ -60,6 +60,6 @@ public class TranslatorJsonApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(TranslatorJsonApplication.class, args);
+        SpringApplication.run(TranslatorRabbitApplication.class, args);
     }
 }
