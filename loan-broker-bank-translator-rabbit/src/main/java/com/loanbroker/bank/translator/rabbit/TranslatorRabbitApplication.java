@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 public class TranslatorRabbitApplication {
 
     private static final String queueName = "bank.rabbit.translator";
+    private static final String exchangeName = "translator.exch";
     private static final String bankUri = "amqp://guest:guest@datdb.cphbusiness.dk:5672";
     private final String bankExchange = "cphbusiness.bankRabbit";
 
@@ -45,9 +46,15 @@ public class TranslatorRabbitApplication {
     @Bean
     SimpleMessageListenerContainer container(ConnectionFactory factory, MessageListenerAdapter listenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(factory);
+        container.setConnectionFactory(connectionFactory);
         container.addQueueNames(queueName);
         container.setMessageListener(listenerAdapter);
         return container;
+    }
+
+    @Bean
+    MessageListenerAdapter listenerAdapter(Receiver receiver) {
+        return new MessageListenerAdapter(receiver, "receiveMessage");
     }
 
     public static void main(String[] args) {
