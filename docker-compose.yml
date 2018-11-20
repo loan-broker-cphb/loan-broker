@@ -1,8 +1,15 @@
 version: '3.5'
 services:
 
+  loan-broker-frontend:
+    image: loanbrokerg4/frontend:master
+    ports:
+      - 3000:3000
+    depends_on:
+      - loan-broker-api
+
   loan-broker-rulebase:
-    image: loanbrokerg4/rule-base:new-dependency
+    image: loanbrokerg4/rule-base:master
     ports:
       - 8080:8080
 
