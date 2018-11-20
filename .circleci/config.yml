@@ -9,6 +9,9 @@ jobs:
     # specify the version you desire here
     - image: circleci/openjdk:8u171-jdk
     - image: rabbitmq:3.7.8
+    - image: postgres:11.1
+      environment:
+        POSTGRES_PASSWORD: password
 
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
