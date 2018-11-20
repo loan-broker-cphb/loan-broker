@@ -77,8 +77,7 @@ public class LoanBrokerNormalizerApplication {
     }
 
     @Bean
-    SimpleMessageListenerContainer rabbitContainer(ConnectionFactory connectionFactory,
-                                                MessageListenerAdapter) {
+    SimpleMessageListenerContainer rabbitContainer(ConnectionFactory connectionFactory) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.addQueueNames(rabbitQueueName);

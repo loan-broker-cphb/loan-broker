@@ -52,6 +52,13 @@ public class TranslatorRabbitApplication {
         return container;
     }
 
+    // recieves
+    int ssn = quoteRequest.getSsn();
+    int creditScore = quoteRequest.getCreditScore();
+    double loanAmount = quoteRequest.getLoanAmount();
+    int loanDurationMount = quoteRequest.getLoanDuration()*30;
+    double interstRate ;     // returns + ssn
+
     @Bean
     MessageListenerAdapter listenerAdapter(Receiver receiver) {
         return new MessageListenerAdapter(receiver, "receiveMessage");
@@ -59,5 +66,8 @@ public class TranslatorRabbitApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TranslatorRabbitApplication.class, args);
+
+        System.out.println("Sending message...");
+        rabbitTemplate.convertAndSend(Application.topicExchangeName, "Hello!");
     }
 }
