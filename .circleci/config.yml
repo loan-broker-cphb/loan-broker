@@ -34,7 +34,7 @@ jobs:
         - v1-dependencies-
     - run: mvn clean install -DskipTests
     - run: cd loan-broker-normalizer && ./mvnw test
-    - run: cd loan-broker-aggregator && ./mvnw test -Dspring.datasource.url=jdbc:postgresql://localhost:5432/postgres
+    - run: cd loan-broker-aggregator && ./mvnw test
     - save_cache:
         paths:
         - ~/.m2
