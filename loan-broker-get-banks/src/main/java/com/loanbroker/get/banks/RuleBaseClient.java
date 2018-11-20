@@ -1,4 +1,4 @@
-package com.loanbroker.loanbrokergetbanks;
+package com.loanbroker.get.banks;
 
 import banks.wsdl.GetBanksResponse;
 import com.loanbroker.commons.model.Bank;

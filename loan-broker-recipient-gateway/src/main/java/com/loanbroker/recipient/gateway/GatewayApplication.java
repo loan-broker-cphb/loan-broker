@@ -1,6 +1,7 @@
 package com.loanbroker.recipient.gateway;
 
 import com.loanbroker.commons.model.GetBanksToGateway;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -20,10 +21,16 @@ import java.util.Map;
 public class GatewayApplication {
 
     private static final String queueName = "gateway";
+    static final String exchange = "translator.exch";
 
     @Bean
     Queue queue() {
         return new Queue(queueName, true);
+    }
+
+    @Bean
+    DirectExchange exchange() {
+        return new DirectExchange(exchange);
     }
 
     @Bean

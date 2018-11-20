@@ -1,4 +1,4 @@
-package com.loanbroker.loanbrokergetbanks;
+package com.loanbroker.get.banks;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -35,6 +35,11 @@ public class LoanBrokerGetBanksApplication {
     @Bean
     Queue queue() {
         return new Queue(queueName, true);
+    }
+
+    @Bean
+    Queue gatewayQueue() {
+        return new Queue(gatewayQueue, true);
     }
 
     @Bean
