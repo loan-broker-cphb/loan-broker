@@ -12,8 +12,6 @@ public class MessageReceiver {
     @Autowired
     RabbitTemplate template;
 
-    private final String exchange = "translator.exch";
-
     public MessageReceiver() {
     }
 
@@ -24,7 +22,7 @@ public class MessageReceiver {
         bankMessage.setCreditScore(message.getCreditScore());
         bankMessage.setLoanAmount(message.getLoanAmount());
         for (Bank bank : message.getBanks()) {
-            template.convertAndSend(exchange, bank.toString(), bankMessage);
+            template.convertAndSend(GatewayApplication.exchange, bank.toString(), bankMessage);
         }
     }
 }

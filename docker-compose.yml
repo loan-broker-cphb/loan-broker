@@ -1,5 +1,11 @@
 version: '3.5'
 services:
+
+  loan-broker-rulebase:
+    image: loanbrokerg4/rule-base:new-dependency
+    ports:
+      - 8080:8080
+
   loan-broker-aggregator:
     build:
       context: ./loan-broker-aggregator
@@ -8,12 +14,24 @@ services:
       - rabbitmq
       - postgres
 
+  loan-broker-api:
+    build:
+      context: ./loan-broker-api
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8081
+    depends_on:
+    - rabbitmq
+    - postgres
+    - loan-broker-credit-score
+
   loan-broker-normalizer:
     build:
       context: ./loan-broker-normalizer
       dockerfile: Dockerfile
     depends_on:
     - rabbitmq
+    - loan-broker-aggregator
 
   loan-broker-translator-xml:
     build:
@@ -28,6 +46,34 @@ services:
       dockerfile: Dockerfile
     depends_on:
     - rabbitmq
+
+  loan-broker-credit-score:
+    build:
+      context: ./loan-broker-credit-score
+      dockerfile: Dockerfile
+    depends_on:
+    - rabbitmq
+    - loan-broker-gateway
+
+  loan-broker-gateway:
+    build:
+      context: ./loan-broker-recipient-gateway
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+      - loan-broker-translator-json
+      - loan-broker-translator-xml
+
+  loan-broker-get-banks:
+    build:
+      context: ./loan-broker-get-banks
+      dockerfile: Dockerfile
+    environment:
+      - GETBANKS_URL=http://loan-broker-rulebase:8080
+    depends_on:
+      - rabbitmq
+      - loan-broker-gateway
+      - loan-broker-rulebase
 
   rabbitmq:
     image: rabbitmq:3.7.8-management

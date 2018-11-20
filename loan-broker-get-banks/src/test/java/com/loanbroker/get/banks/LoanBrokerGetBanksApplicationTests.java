@@ -1,4 +1,4 @@
-package com.loanbroker.loanbrokergetbanks;
+package com.loanbroker.get.banks;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
