@@ -68,3 +68,41 @@ Translators
 - [Aggregator](https://github.com/loan-broker-cphb/loan-broker/tree/master/loan-broker-aggregator/src/main/java/com/loanbroker/aggregator)
 > aggregates all the bank responses into one loan response.
 
+### Bottlenecks
+... @Mikkel
+
+### Testability
+...to do
+
+### Error Handling
+.. to do
+
+### Internal Loan Broker processes
+We have been using Spring Boot Java application which makes it easier to tied up all the components or start it individually.
+It basically has everything we need for this project such as amqp and web services dependencies.
+
+**pom.xml**
+```xml
+<parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.0.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <modules>
+        <module>loan-broker-credit-score</module>
+        <module>loan-broker-get-banks</module>
+        <module>loan-broker-recipient-gateway</module>
+        <module>loan-broker-bank-translator-json</module>
+        <module>loan-broker-bank-translator-xml</module>
+        <module>loan-broker-normalizer</module>
+        <module>loan-broker-utils</module>
+        <module>loan-broker-commons</module>
+        <module>loan-broker-aggregator</module>
+        <module>loan-broker-api</module>
+        <module>loan-broker-commons-db</module>
+    </modules>
+```
+
+Reference:  https://spring.io/guides/gs/multi-module/ 
+
