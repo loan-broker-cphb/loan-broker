@@ -30,6 +30,10 @@ public class RuleBaseClient {
         List<Bank> banks = getBanks(creditScoreToGetBanksDto.getCreditScore(), creditScoreToGetBanksDto.getLoanAmount().doubleValue());
         GetBanksToGateway getBanksToGateway = new GetBanksToGateway();
         getBanksToGateway.setBanks(banks);
+        getBanksToGateway.setCreditScore(creditScoreToGetBanksDto.getCreditScore());
+        getBanksToGateway.setDuration(creditScoreToGetBanksDto.getLoanDuration());
+        getBanksToGateway.setLoanAmount(creditScoreToGetBanksDto.getLoanAmount());
+        getBanksToGateway.setSsn(creditScoreToGetBanksDto.getSsn());
 
         rabbitTemplate.convertAndSend(LoanBrokerGetBanksApplication.gatewayQueue, getBanksToGateway);
     }
