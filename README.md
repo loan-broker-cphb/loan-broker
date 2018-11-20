@@ -12,28 +12,28 @@ See the project description [here](https://github.com/datsoftlyngby/soft2018fall
 
 ## I. PROJECT DOCUMENTATION
 
-> _Loan Broker Project was originated from the book Enterprise Integration Patterns, 
-which basically takes a loan request and determine the best banks that could grant the user a loan
-with corresponding interest rates. The request will be processed by independent components that is described further below._
+> _Loan Broker Project is originated from the book Enterprise Integration Patterns, 
+which takes a loan request and determine the best banks that could grant the user a loan
+with corresponding interest rates. The request will be processed by independent components which are described in the following._
 
-#### Run this project
-Running the project like specified will start up all the components in the correct order.
-This also assumes that you have a 
+#### Run the project
+Running the project as specified, will start up all the components in the correct order.
+You should have:
 #### Prerequisites
 - Java 8
 - Maven
 - Docker
 
 #### How to run the project
-1. Clone the project
+1. Clone the project repository
 2. `cd` into the base directory
 3. Run `mvn install -DskipTests`
 4. Run `docker-compose pull`
 5. Run `docker-compose up -d --build`
 
-This will start up the rulebase, all the banks and the project itself
+This will start up the rulebase, all the banks and the project itself.
 
-### Loan Broker Design
+### Loan Broker System Design
 ![image](https://user-images.githubusercontent.com/16150075/48804176-3343a480-ed14-11e8-8c38-01a4f67fe50a.png)
 
 ### The Message Flow
@@ -72,7 +72,7 @@ Translators
 > aggregates all the bank responses into one loan response.
 
 ### Bottlenecks
-... @Mikkel
+...to do
 
 ### Testability
 ...to do
@@ -81,8 +81,8 @@ Translators
 .. to do
 
 ### Internal Loan Broker processes
-We have been using Spring Boot Java application which makes it easier to tied up all the components or start it individually.
-It basically has everything we need for this project such as amqp and web services dependencies.
+We have been using Spring Boot Java application which makes it easier to tie up all the components or start them individually.
+Spring Boot has everything we need for this project, such as `amqp` and web services dependencies.
 
 **pom.xml**
 ```xml
