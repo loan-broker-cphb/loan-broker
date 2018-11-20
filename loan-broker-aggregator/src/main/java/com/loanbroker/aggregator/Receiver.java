@@ -25,6 +25,7 @@ public class Receiver {
         System.out.println("Aggregator received message:");
         System.out.println(message.getSsn());
         System.out.println(message.getBank().toString());
+        System.out.println(message.getInterestRate());
         Optional<Result> result = repository.findById(message.getSsn());
         if (result.isPresent()) {
             Result res = result.get();
