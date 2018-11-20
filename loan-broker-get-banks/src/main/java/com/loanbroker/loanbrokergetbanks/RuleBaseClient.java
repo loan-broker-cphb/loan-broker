@@ -24,7 +24,7 @@ public class RuleBaseClient {
     }
 
     public void handleMessage(CreditScoreToGetBanksDto creditScoreToGetBanksDto) {
-        System.out.println("GetCreditScore received message:");
+        System.out.println("Get Banks received message:");
         System.out.println(creditScoreToGetBanksDto.getCreditScore());
         System.out.println(creditScoreToGetBanksDto.getLoanAmount());
         List<Bank> banks = getBanks(creditScoreToGetBanksDto.getCreditScore(), creditScoreToGetBanksDto.getLoanAmount().doubleValue());

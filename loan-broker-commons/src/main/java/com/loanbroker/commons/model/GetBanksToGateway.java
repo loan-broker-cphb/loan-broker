@@ -1,9 +1,10 @@
 package com.loanbroker.commons.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class GetBanksToGateway {
+public class GetBanksToGateway implements Serializable {
     private long ssn;
     private int creditScore;
     private BigDecimal loanAmount;

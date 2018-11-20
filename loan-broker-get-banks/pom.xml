@@ -66,6 +66,7 @@
                     <version>0.14.0</version>
                     <executions>
                         <execution>
+                            <phase>generate-sources</phase>
                             <goals>
                                 <goal>generate</goal>
                             </goals>
