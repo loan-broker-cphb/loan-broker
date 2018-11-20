@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class BankMessage implements Serializable {
-    private int ssn;
+    private long ssn;
     private int creditScore;
     private BigDecimal loanAmount;
     private int loanDuration;
@@ -12,11 +12,11 @@ public class BankMessage implements Serializable {
     public BankMessage() {
     }
 
-    public int getSsn() {
+    public long getSsn() {
         return ssn;
     }
 
-    public void setSsn(int ssn) {
+    public void setSsn(long ssn) {
         this.ssn = ssn;
     }
 

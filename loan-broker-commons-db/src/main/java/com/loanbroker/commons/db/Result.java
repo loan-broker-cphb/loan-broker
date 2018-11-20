@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 public class Result implements Serializable {
     @Id
     @Column(name = "SSN", nullable = false)
-    private Integer ssn;
+    private Long ssn;
 
     @Column(name = "BANK", nullable = false)
     private String bank;
@@ -23,11 +23,11 @@ public class Result implements Serializable {
     public Result() {
     }
 
-    public Integer getSsn() {
+    public Long getSsn() {
         return ssn;
     }
 
-    public void setSsn(Integer ssn) {
+    public void setSsn(Long ssn) {
         this.ssn = ssn;
     }
 
