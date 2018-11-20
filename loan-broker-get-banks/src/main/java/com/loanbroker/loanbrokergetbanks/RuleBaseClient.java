@@ -3,9 +3,7 @@ package com.loanbroker.loanbrokergetbanks;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import rulebase.Bank;
-import rulebase.BankService;
-import rulebase.BankService_Service;
+import rulebase.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +32,18 @@ public class RuleBaseClient {
     }
 
     public List<Bank> getBanks(int creditScore, double loanAmount){
-        BankService_Service service = new BankService_Service();
-        BankService port = service.getBankServicePort();
+        BanksPortService service = new BanksPortService();
+        GetBanksResponse response = new GetBanksResponse();
+        BanksPort port = service.getBanksPortSoap11();
         List<Bank> banks = new ArrayList();
-        banks = port.makeLoan(creditScore, loanAmount);
+        GetBanksRequest request = new GetBanksRequest();
+        request.setCreditScore(creditScore);
+        request.setLoanAmount(loanAmount);
+        response = port.getBanks(request);
+        banks = response.getBanks();
         for (Bank b:banks) {
             System.out.println("THE BANK: " + b.getName());
-            System.out.println("THE ROUTING KEY: " + b.getRoutingKey());
+            System.out.println("THE ROUTING KEY: " + b.getRoutingkey());
         }
         return null;
     }
