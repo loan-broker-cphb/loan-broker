@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class GetBanksToGateway {
-    private int ssn;
+    private long ssn;
     private int creditScore;
     private BigDecimal loanAmount;
     private int duration;
@@ -14,11 +14,11 @@ public class GetBanksToGateway {
     public GetBanksToGateway() {
     }
 
-    public int getSsn() {
+    public long getSsn() {
         return ssn;
     }
 
-    public void setSsn(int ssn) {
+    public void setSsn(long ssn) {
         this.ssn = ssn;
     }
 

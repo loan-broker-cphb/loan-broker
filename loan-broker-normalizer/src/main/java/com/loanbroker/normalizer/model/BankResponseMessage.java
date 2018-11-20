@@ -5,18 +5,18 @@ import java.math.BigDecimal;
 
 public class BankResponseMessage implements Serializable {
 
-    private int ssn;
+    private long ssn;
     private BigDecimal interestRate;
 
     public BankResponseMessage() {
 
     }
 
-    public int getSsn() {
+    public long getSsn() {
         return ssn;
     }
 
-    public void setSsn(int ssn) {
+    public void setSsn(long ssn) {
         this.ssn = ssn;
     }
 

@@ -1,10 +1,14 @@
 package com.loanbroker.api.resources;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.loanbroker.api.LoanBrokerApiApplication;
+import com.loanbroker.commons.db.Result;
+import com.loanbroker.commons.db.ResultRepository;
+import com.loanbroker.commons.model.QuoteRequest;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -13,8 +17,20 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 public class QuoteResource {
 
-    @GetMapping
-    public String getQuote() {
-        return "Good one!";
+    @Autowired
+    ResultRepository repository;
+
+    @Autowired
+    RabbitTemplate template;
+
+    @GetMapping("/{ssn}")
+    public Result getQuote(@PathVariable("ssn") Long ssn) {
+        return repository.findById(ssn).get();
+    }
+
+    @PostMapping
+    public String postQuote(@RequestBody @Valid QuoteRequest request) {
+        template.convertAndSend(LoanBrokerApiApplication.creditScoreQueue, request);
+        return "Quote posted";
     }
 }

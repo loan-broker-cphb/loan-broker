@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - rabbitmq
+      - postgres
 
   loan-broker-normalizer:
     build:
@@ -33,6 +34,13 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
+
+  postgres:
+    image: postgres:11.1
+    environment:
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
 
 networks:
   default:

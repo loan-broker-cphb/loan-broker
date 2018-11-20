@@ -1,15 +1,21 @@
 package com.loanbroker.commons.model;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class BankMessage implements Serializable {
+public class QuoteRequest implements Serializable {
+
+    @NotNull
     private long ssn;
-    private int creditScore;
+
+    @NotNull
     private BigDecimal loanAmount;
+
+    @NotNull
     private int loanDuration;
 
-    public BankMessage() {
+    public QuoteRequest() {
     }
 
     public long getSsn() {
@@ -18,14 +24,6 @@ public class BankMessage implements Serializable {
 
     public void setSsn(long ssn) {
         this.ssn = ssn;
-    }
-
-    public int getCreditScore() {
-        return creditScore;
-    }
-
-    public void setCreditScore(int creditScore) {
-        this.creditScore = creditScore;
     }
 
     public BigDecimal getLoanAmount() {

@@ -6,15 +6,15 @@ import java.math.BigDecimal;
 public class NormalizerAggregatorMessage implements Serializable {
     public NormalizerAggregatorMessage() {}
 
-    private int ssn;
+    private long ssn;
     private BigDecimal interestRate;
     private Bank bank;
 
-    public int getSsn() {
+    public long getSsn() {
         return ssn;
     }
 
-    public void setSsn(int ssn) {
+    public void setSsn(long ssn) {
         this.ssn = ssn;
     }
 

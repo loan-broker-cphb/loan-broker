@@ -31,6 +31,7 @@
         <module>loan-broker-commons</module>
         <module>loan-broker-aggregator</module>
         <module>loan-broker-api</module>
+        <module>loan-broker-commons-db</module>
     </modules>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
