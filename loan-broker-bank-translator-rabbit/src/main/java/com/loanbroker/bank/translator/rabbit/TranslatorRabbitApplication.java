@@ -1,6 +1,5 @@
-package com.loanbroker.bank.translator.json;
+package com.loanbroker.bank.translator.rabbit;
 
-import com.loanbroker.commons.model.BankMessage;
 import com.loanbroker.commons.model.RabbitTemplateBuilder;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -10,16 +9,9 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
-import org.springframework.amqp.support.converter.ClassMapper;
-import org.springframework.amqp.support.converter.DefaultClassMapper;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @SpringBootApplication
 public class TranslatorJsonApplication {
@@ -32,7 +24,7 @@ public class TranslatorJsonApplication {
 
 
     @Bean
-    RabbitTemplate rabbitTemplate(MessageConverter) {
+    RabbitTemplate rabbitTemplate() {
         return RabbitTemplateBuilder.newBuilder()
                 .connectionUri(bankUri)
                 .exchange(bankExchange)
@@ -64,7 +56,7 @@ public class TranslatorJsonApplication {
 
     @Bean
     MessageListenerAdapter listenerAdapter(MessageReceiver receiver) {
-        return new MessageListenerAdapter(receiver, fromJsonConverter());
+        return new MessageListenerAdapter(receiver);
     }
 
     public static void main(String[] args) {
