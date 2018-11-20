@@ -8,7 +8,8 @@ public class BankMessageMapper {
         XmlBankMessage toMessage = new XmlBankMessage();
         toMessage.setCreditScore(fromMessage.getCreditScore());
         toMessage.setLoanAmount(fromMessage.getLoanAmount());
-        toMessage.setSsn(fromMessage.getSsn());
+        String ssn = fromMessage.getSsn().replace("-", "");
+        toMessage.setSsn(Integer.parseInt(ssn));
         toMessage.setLoanDuration(DateUtil.daysFromEpochToDate(fromMessage.getLoanDuration()));
         return toMessage;
     }

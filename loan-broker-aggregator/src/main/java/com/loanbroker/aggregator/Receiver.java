@@ -8,15 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.concurrent.CountDownLatch;
 
 @Component
 public class Receiver {
 
     @Autowired
     private ResultRepository repository;
-
-    private CountDownLatch latch = new CountDownLatch(1);
 
     private final RabbitTemplate rabbitTemplate;
 
@@ -28,6 +25,7 @@ public class Receiver {
         System.out.println("Aggregator received message:");
         System.out.println(message.getSsn());
         System.out.println(message.getBank().toString());
+        System.out.println(message.getInterestRate());
         Optional<Result> result = repository.findById(message.getSsn());
         if (result.isPresent()) {
             Result res = result.get();
@@ -36,6 +34,12 @@ public class Receiver {
                 res.setInterestRate(message.getInterestRate());
                 repository.save(res);
             }
+        } else {
+            Result res = new Result();
+            res.setBank(message.getBank().toString());
+            res.setInterestRate(message.getInterestRate());
+            res.setSsn(message.getSsn());
+            repository.save(res);
         }
     }
 }

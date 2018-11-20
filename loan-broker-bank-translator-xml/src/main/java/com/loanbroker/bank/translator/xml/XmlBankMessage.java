@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class XmlBankMessage implements Serializable {
-    private long ssn;
+    private int ssn;
     private int creditScore;
     private BigDecimal loanAmount;
     private Date loanDuration;
@@ -13,11 +13,11 @@ public class XmlBankMessage implements Serializable {
     public XmlBankMessage() {
     }
 
-    public long getSsn() {
+    public int getSsn() {
         return ssn;
     }
 
-    public void setSsn(long ssn) {
+    public void setSsn(int ssn) {
         this.ssn = ssn;
     }
 

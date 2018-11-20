@@ -17,7 +17,7 @@ public class BankDtoMessageMapperTest {
         BankMessage message = new BankMessage();
         message.setCreditScore(10);
         message.setLoanAmount(new BigDecimal(100));
-        message.setSsn(5);
+        message.setSsn("111195-1234");
         message.setLoanDuration(365 * 3 + 1);
 
         XmlBankMessage xmlBankMessage = BankMessageMapper.toXmlBankMessage(message);

@@ -1,8 +1,5 @@
 package com.loanbroker.aggregator;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -18,24 +15,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan("com.loanbroker.commons.db")
 public class LoanBrokerAggregatorApplication {
 
-    static final String directExchangeName = "direct.test";
-
-    static final String queueName = "normalizer-aggregator";
+    static final String queueName = "aggregator";
 
 
     @Bean
     Queue queue() {
         return new Queue(queueName, true);
-    }
-
-    @Bean
-    DirectExchange exchange() {
-        return new DirectExchange(directExchangeName);
-    }
-
-    @Bean
-    Binding binding(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("normalizer");
     }
 
     @Bean

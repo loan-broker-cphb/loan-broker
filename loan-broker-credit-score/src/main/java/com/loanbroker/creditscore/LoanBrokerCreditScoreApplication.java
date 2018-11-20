@@ -1,8 +1,5 @@
 package com.loanbroker.creditscore;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -14,9 +11,9 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class LoanBrokerCreditScoreApplication {
 
-	static final String getBanksExchangeName = "direct.test";
+	static final String queueName = "loanrequest.getcreditscore";
 
-	static final String queueName = "loanrequest-getcreditscore";
+	static final String getBanksQueue = "getcreditscore.getbanks";
 
 
 	@Bean
@@ -25,13 +22,8 @@ public class LoanBrokerCreditScoreApplication {
 	}
 
 	@Bean
-	DirectExchange exchange() {
-		return new DirectExchange(getBanksExchangeName);
-	}
-
-	@Bean
-	Binding binding(Queue queue, DirectExchange exchange) {
-		return BindingBuilder.bind(queue).to(exchange).with("loanrequest");
+	Queue getBanksQueue() {
+		return new Queue(getBanksQueue, true);
 	}
 
 	@Bean

@@ -13,6 +13,7 @@ public class MessageReceiver {
     }
 
     public void handleMessage(BankMessage message) {
+        message.setSsn(message.getSsn().replace("-", ""));
         rabbitTemplate.convertAndSend(message, m -> {
             m.getMessageProperties().setContentType("application/json");
             m.getMessageProperties().setReplyTo("g4.json.reply-to");

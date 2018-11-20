@@ -27,8 +27,11 @@ This also assumes that you have a
 #### How to run the project
 1. Clone the project
 2. `cd` into the base directory
-3. Run `mvn package`
-4. Run `docker-compose up -d`
+3. Run `mvn install -DskipTests`
+4. Run `docker-compose pull`
+5. Run `docker-compose up -d --build`
+
+This will start up the rulebase, all the banks and the project itself
 
 ### Loan Broker Design
 ![image](https://user-images.githubusercontent.com/16150075/48804176-3343a480-ed14-11e8-8c38-01a4f67fe50a.png)
