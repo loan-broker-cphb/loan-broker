@@ -1,5 +1,11 @@
 version: '3.5'
 services:
+
+  loan-broker-rulebase:
+    image: loanbrokerg4/rule-base:new-dependency
+    ports:
+      - 8080:8080
+
   loan-broker-aggregator:
     build:
       context: ./loan-broker-aggregator
@@ -62,9 +68,12 @@ services:
     build:
       context: ./loan-broker-get-banks
       dockerfile: Dockerfile
+    environment:
+      - GETBANKS_URL=http://loan-broker-rulebase:8080
     depends_on:
       - rabbitmq
       - loan-broker-gateway
+      - loan-broker-rulebase
 
   rabbitmq:
     image: rabbitmq:3.7.8-management

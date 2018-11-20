@@ -21,6 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <getbanks.url>http://localhost:8080</getbanks.url>
     </properties>
 
     <dependencies>
@@ -72,7 +73,7 @@
                     <generatePackage>banks.wsdl</generatePackage>
                     <schemas>
                         <schema>
-                            <url>http://localhost:8080/ws/banks.wsdl</url>
+                            <url>${getbanks.url}/ws/banks.wsdl</url>
                         </schema>
                     </schemas>
                 </configuration>
