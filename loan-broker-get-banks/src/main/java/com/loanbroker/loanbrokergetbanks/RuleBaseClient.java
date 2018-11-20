@@ -1,12 +1,12 @@
 package com.loanbroker.loanbrokergetbanks;
 
+import banks.wsdl.GetBanksResponse;
 import com.loanbroker.commons.model.Bank;
 import com.loanbroker.commons.model.CreditScoreToGetBanksDto;
 import com.loanbroker.commons.model.GetBanksToGateway;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import rulebase.BankService;
-import rulebase.BankService_Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,9 @@ import java.util.List;
 public class RuleBaseClient {
 
     private final RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    BanksClient client;
 
     public RuleBaseClient(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
@@ -32,12 +35,12 @@ public class RuleBaseClient {
     }
 
     public List<Bank> getBanks(int creditScore, double loanAmount){
-        BankService_Service service = new BankService_Service();
-        BankService port = service.getBankServicePort();
-        List<rulebase.Bank> rulebaseBanks = port.makeLoan(creditScore, loanAmount);
+
+        GetBanksResponse response = client.getBanks(creditScore, loanAmount);
+
         List<Bank> banks = new ArrayList<>();
-        for (rulebase.Bank b : rulebaseBanks) {
-            Bank bank = Bank.valueOf(b.getRoutingKey());
+        for (banks.wsdl.Bank b : response.getBanks()) {
+            Bank bank = Bank.valueOf(b.getRoutingkey());
             banks.add(bank);
         }
         return banks;
