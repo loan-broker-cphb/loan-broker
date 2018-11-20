@@ -31,7 +31,7 @@ This also assumes that you have a
 4. Run `docker-compose up -d`
 
 ### Loan Broker Design
-![image](https://user-images.githubusercontent.com/16150075/47963816-60fcce00-e031-11e8-872c-cbd7dd077dd1.png)
+![image](https://user-images.githubusercontent.com/16150075/48804176-3343a480-ed14-11e8-8c38-01a4f67fe50a.png)
 
 ### The Message Flow
 1. Receive the consumer's loan quote request.
