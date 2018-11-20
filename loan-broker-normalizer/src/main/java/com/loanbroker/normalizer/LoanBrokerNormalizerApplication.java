@@ -20,6 +20,7 @@ public class LoanBrokerNormalizerApplication {
 
     private static final String jsonQueueName = "g4.json.reply-to";
     private static final String xmlQueueName = "g4.xml.reply-to";
+    private static final String rabbitQueueName = "g4.rabbit.reply-to";
 
     @Value("${bank.url}")
     private String banUrl;
@@ -56,6 +57,14 @@ public class LoanBrokerNormalizerApplication {
         container.setConnectionFactory(connectionFactory);
         container.addQueueNames(jsonQueueName);
         container.setMessageListener(jsonListenerAdapter);
+        return container;
+    }
+
+    @Bean
+    SimpleMessageListenerContainer rabbitContainer(ConnectionFactory connectionFactory) {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.addQueueNames(rabbitQueueName);
         return container;
     }
 
