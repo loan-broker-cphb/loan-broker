@@ -36,6 +36,11 @@ public class LoanBrokerNormalizerApplication {
     }
 
     @Bean
+    Queue rabbitQueue() {
+        return new Queue(rabbitQueueName, true);
+    }
+
+    @Bean
     ConnectionFactory connectionFactory() {
         return ConnectionFactoryBuilder.create(banUrl);
     }
