@@ -12,6 +12,7 @@ jobs:
     - image: postgres:11.1
       environment:
         POSTGRES_PASSWORD: password
+    - image: loanbrokerg4/rule-base:master
 
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
@@ -33,6 +34,7 @@ jobs:
         # fallback to using the latest cache if no exact match is found
         - v1-dependencies-
     - run: mvn clean install -DskipTests
+    - run: cd loan-broker-api && ./mvnw test
     - run: cd loan-broker-normalizer && ./mvnw test
     - run: cd loan-broker-aggregator && ./mvnw test
     - save_cache:
