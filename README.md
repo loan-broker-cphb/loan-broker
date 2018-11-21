@@ -14,7 +14,7 @@ See the project description [here](https://github.com/datsoftlyngby/soft2018fall
 
 > _Loan Broker Project is originated from the book Enterprise Integration Patterns, 
 which takes a loan request and determine the best banks that could grant the user a loan
-with corresponding interest rates. The request will be processed by independent components which are described in the following._
+with corresponding interest rates. The request will be processed by independent components which are described in the components section._
 
 #### Run the project
 Running the project as specified, will start up all the components in the correct order.
@@ -73,7 +73,13 @@ Translators
 > aggregates all the bank responses into one loan response.
 
 ### Bottlenecks
-...to do
+Since we haven't done full test coverage for all the components, there is still a risk of failure from one component to another which could make the user clueless. 
+In situations for business reasoning like too low credit score for big loan amount, or way long/short loan duration are not being handled.
+
+It is also unknown how much requests can the system handle, as we haven't focus on scalability. One component may take a while in processing a message, 
+especially in cases that it also communicates with a third-party/external component like the credit bureau/rule base as an example. 
+If it continuously receiving loan request while encountering a failure from the external component,
+it will not get the expected response. It may just get stuck processing that current message or worse make the system crash.
 
 ### Testability
 ...to do
