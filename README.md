@@ -27,9 +27,10 @@ You should have:
 #### How to run the project
 1. Clone the project repository
 2. `cd` into the base directory
-3. Run `mvn install -DskipTests`
-4. Run `docker-compose pull`
-5. Run `docker-compose up -d --build`
+3. Run `docker-compose pull`
+4. Run `docker-compose up -d loan-broker-rulebase`
+5. Run `mvn install -DskipTests`
+6. Run `docker-compose up -d --build`
 
 This will start up the rulebase, all the banks and the project itself.
 
