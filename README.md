@@ -10,7 +10,7 @@ See the project description [here](https://github.com/datsoftlyngby/soft2018fall
 - Mahnaz Karimi (cph-mk406)
 ***
 
-## I. PROJECT DOCUMENTATION
+## PROJECT DOCUMENTATION
 
 > _Loan Broker Project is originated from the book Enterprise Integration Patterns, 
 which takes a loan request and determine the best banks that could grant the user a loan
@@ -35,6 +35,12 @@ You should have:
 This will start up the rulebase, all the banks and the project itself.
 
 ### Loan Broker System Design
+
+> _There are two ways of components integration that we used for the loan broker system, through SOAP/REST web service and messaging with RabbitMQ. 
+We have implemented each components in Spring Boot which widely supports amqp, REST web service and SOAP web service. See the system design below wherein
+it clearly shows which components uses messaging and which are integrated through web service._
+
+
 ![image](https://user-images.githubusercontent.com/16150075/48804176-3343a480-ed14-11e8-8c38-01a4f67fe50a.png)
 
 ### The Message Flow
