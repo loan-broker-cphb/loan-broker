@@ -79,7 +79,20 @@ Translators
 ...to do
 
 ### Error Handling
-.. to do
+We have set up an error page from the user's view as it catches the exceptions. On the other hand, we also added a validator that restricts the format of SSN that comes in to the server.
+
+**SSN Validator**
+```java
+@Override
+        public boolean isValid(String ssn, ConstraintValidatorContext constraintValidatorContext) {
+            return ssn != null && ssn.matches("[0-3][0-9][0-1][1-9]\\d{2}-\\d{4}?[^0-9]*");
+}
+```
+Source: https://github.com/loan-broker-cphb/loan-broker/tree/master/loan-broker-commons/src/main/java/com/loanbroker/commons/validator
+
+**Frontend Error Page**
+
+![image](https://user-images.githubusercontent.com/16150075/48817290-fc868200-ed45-11e8-82de-d15e58e22706.png)
 
 ### Internal Loan Broker processes
 We have been using Spring Boot Java application which makes it easier to tie up all the components or start them individually.
@@ -109,4 +122,8 @@ Spring Boot has everything we need for this project, such as `amqp` and web serv
 ```
 
 Reference:  https://spring.io/guides/gs/multi-module/ 
+
+In addition, we have set up `docker-compose` file to start everything up including frontend in corresponding docker containers. See the "How to run the project" section above.
+
+See here: [docker-compose.yml](https://github.com/loan-broker-cphb/loan-broker/blob/master/docker-compose.yml)
 
