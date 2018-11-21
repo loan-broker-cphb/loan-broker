@@ -37,7 +37,7 @@ This will start up the rulebase, all the banks and the project itself.
 ### Loan Broker System Design
 
 > _There are two ways of components integration that we used for the loan broker system, through SOAP/REST web service and messaging with RabbitMQ. 
-We have implemented each components in Spring Boot which widely supports amqp, REST web service and SOAP web service. See the system design below wherein
+We have implemented each component in Spring Boot which widely supports amqp, REST web service and SOAP web service. See the system design below wherein
 it clearly shows which components uses messaging and which are integrated through web service._
 
 
