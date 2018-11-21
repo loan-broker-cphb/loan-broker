@@ -1,5 +1,7 @@
 package com.loanbroker.commons.model;
 
+import com.loanbroker.commons.validator.SsnFormat;
+
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -7,6 +9,7 @@ import java.math.BigDecimal;
 public class QuoteRequest implements Serializable {
 
     @NotNull
+    @SsnFormat
     private String ssn;
 
     @NotNull
