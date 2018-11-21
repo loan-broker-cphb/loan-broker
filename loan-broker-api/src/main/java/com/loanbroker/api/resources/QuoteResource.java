@@ -29,8 +29,8 @@ public class QuoteResource {
     }
 
     @PostMapping
-    public String postQuote(@RequestBody @Valid QuoteRequest request) {
+    public QuoteResponse postQuote(@RequestBody @Valid QuoteRequest request) {
         template.convertAndSend(LoanBrokerApiApplication.creditScoreQueue, request);
-        return "Quote posted";
+        return new QuoteResponse(request.getSsn());
     }
 }

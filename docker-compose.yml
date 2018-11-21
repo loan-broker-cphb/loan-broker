@@ -1,6 +1,13 @@
 version: '3.5'
 services:
 
+  loan-broker-json-bank:
+    image: loanbrokerg4/bank-web-service:master
+    ports:
+      - 8091:8091
+    depends_on:
+      - rabbitmq
+
   loan-broker-frontend:
     image: loanbrokerg4/frontend:master
     ports:
@@ -39,6 +46,14 @@ services:
     depends_on:
     - rabbitmq
     - loan-broker-aggregator
+
+  loan-broker-translator-g4-json:
+    build:
+      context: ./loan-broker-bank-translator-g4-web-service
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+      - loan-broker-json-bank
 
   loan-broker-translator-xml:
     build:

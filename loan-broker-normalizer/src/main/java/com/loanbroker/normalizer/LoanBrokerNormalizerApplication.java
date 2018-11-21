@@ -2,7 +2,6 @@ package com.loanbroker.normalizer;
 
 import com.loanbroker.normalizer.model.BankResponseMessage;
 import com.loanbroker.utils.ConnectionFactoryBuilder;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
@@ -22,38 +21,26 @@ public class LoanBrokerNormalizerApplication {
     private static final String xmlQueueName = "g4.xml.reply-to";
 
     @Value("${bank.url}")
-    private String banUrl;
-
-    @Bean
-    Queue jsonQueue() {
-        return new Queue(jsonQueueName, true);
-    }
-
-    @Bean
-    Queue xmlQueue() {
-        return new Queue(xmlQueueName, true);
-    }
+    private String bankUrl;
 
     @Bean
     ConnectionFactory connectionFactory() {
-        return ConnectionFactoryBuilder.create(banUrl);
+        return ConnectionFactoryBuilder.create(bankUrl);
     }
 
     @Bean
-    SimpleMessageListenerContainer xmlContainer(ConnectionFactory connectionFactory,
-                                             MessageListenerAdapter xmlListenerAdapter) {
+    SimpleMessageListenerContainer xmlContainer(MessageListenerAdapter xmlListenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
+        container.setConnectionFactory(connectionFactory());
         container.addQueueNames(xmlQueueName);
         container.setMessageListener(xmlListenerAdapter);
         return container;
     }
 
     @Bean
-    SimpleMessageListenerContainer jsonContainer(ConnectionFactory connectionFactory,
-                                             MessageListenerAdapter jsonListenerAdapter) {
+    SimpleMessageListenerContainer jsonContainer(MessageListenerAdapter jsonListenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
+        container.setConnectionFactory(connectionFactory());
         container.addQueueNames(jsonQueueName);
         container.setMessageListener(jsonListenerAdapter);
         return container;
@@ -66,6 +53,7 @@ public class LoanBrokerNormalizerApplication {
         Map<String, Class<?>> idClassMapping = new HashMap<>();
         idClassMapping.put("com.loanbroker.commons.model.BankMessage", BankResponseMessage.class);
         idClassMapping.put("com.loanbroker.bank.translator.xml.XmlBankMessage", BankResponseMessage.class);
+        idClassMapping.put("com.loanbroker.bank.web.service.model.QuoteResponse", BankResponseMessage.class);
         mapper.setIdClassMapping(idClassMapping);
         return mapper;
     }
