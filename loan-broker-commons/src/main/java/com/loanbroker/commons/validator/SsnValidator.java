@@ -13,7 +13,6 @@ public class SsnValidator implements ConstraintValidator<SsnFormat, String>
 
         @Override
         public boolean isValid(String ssn, ConstraintValidatorContext constraintValidatorContext) {
-            return ssn != null && ssn.matches("[0-3][0-9][0-1][1-9]\\d{2}-\\d{4}?[^0-9]")
-                    && (ssn.length() == 11);
+            return ssn != null && ssn.matches("[0-3][0-9][0-1][1-9]\\d{2}-\\d{4}?[^0-9]*");
         }
     }
