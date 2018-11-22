@@ -23,6 +23,7 @@ public class LocalRabbitConfig {
 
     static final String exchange = "replyto.exch";
     static final String jsonQueueName = "g4.json.bank.reply-to";
+    static final String rabbitQueueName = "g4.rabbit.bank.reply-to";
 
     @Bean
     ConnectionFactory localConnectionFactory() {
@@ -54,6 +55,15 @@ public class LocalRabbitConfig {
     }
 
     @Bean
+    SimpleMessageListenerContainer g4RabbitContainer(MessageListenerAdapter g4RabbitListenerAdapter) {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+        container.setConnectionFactory(localConnectionFactory());
+        container.addQueueNames(rabbitQueueName);
+        container.setMessageListener(g4RabbitListenerAdapter);
+        return container;
+    }
+
+    @Bean
     RabbitTemplate localRabbitTemplate() {
         return RabbitTemplateBuilder.newBuilder()
                 .connectionUri(aggregatorAmqpUrl)
@@ -63,5 +73,10 @@ public class LocalRabbitConfig {
     @Bean
     MessageListenerAdapter g4JsonListenerAdapter(G4JsonReceiver g4JsonReceiver, MessageConverter jsonConverter) {
         return new MessageListenerAdapter(g4JsonReceiver, jsonConverter);
+    }
+
+    @Bean
+    MessageListenerAdapter g4RabbitListenerAdapter(G4RabbitReceiver g4RabbitReceiver, MessageConverter jsonConverter) {
+        return new MessageListenerAdapter(g4RabbitReceiver, jsonConverter);
     }
 }

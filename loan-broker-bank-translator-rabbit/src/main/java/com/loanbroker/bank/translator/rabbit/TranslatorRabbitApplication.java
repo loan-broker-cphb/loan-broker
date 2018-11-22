@@ -30,7 +30,7 @@ public class TranslatorRabbitApplication {
     private final String routingKey = "G4_RABBIT";
 
     @Value("${bank.amqp.uri}")
-    private static String bankUri;
+    private String bankUri;
 
     private final String bankQueueName = "g4.rabbit.bank";
 

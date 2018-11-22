@@ -25,7 +25,9 @@ public class Receiver {
         requestDto.setSsn(message.getSsn());
         MessageProperties properties = new MessageProperties();
         properties.setReplyTo("g4.rabbit.bank.reply-to");
+        properties.setContentType("application/json");
         Message rabbitMessage = jsonConverter.toMessage(requestDto, properties);
+        rabbitMessage.getMessageProperties().getHeaders().remove("__TypeId__");
         rabbitTemplate.send("g4.rabbit.bank", rabbitMessage);
     }
 }
