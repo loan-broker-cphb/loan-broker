@@ -54,6 +54,7 @@ public class LoanBrokerNormalizerApplication {
         idClassMapping.put("com.loanbroker.commons.model.BankMessage", BankResponseMessage.class);
         idClassMapping.put("com.loanbroker.bank.translator.xml.XmlBankMessage", BankResponseMessage.class);
         idClassMapping.put("com.loanbroker.bank.web.service.model.QuoteResponse", BankResponseMessage.class);
+        idClassMapping.put("com.rabbitbank.MessageReceiver.MessageResponce", BankResponseMessage.class);
         mapper.setIdClassMapping(idClassMapping);
         return mapper;
     }

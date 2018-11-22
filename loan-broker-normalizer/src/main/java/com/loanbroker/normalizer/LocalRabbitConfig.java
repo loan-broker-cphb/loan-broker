@@ -23,6 +23,7 @@ public class LocalRabbitConfig {
 
     static final String exchange = "replyto.exch";
     static final String jsonQueueName = "g4.json.bank.reply-to";
+    static final String rabbitQueueName = "g4.rabbit.bank.reply-to";
 
     @Bean
     ConnectionFactory localConnectionFactory() {
@@ -45,11 +46,23 @@ public class LocalRabbitConfig {
     }
 
     @Bean
+    Queue g4RabbitQueue() { return new Queue(rabbitQueueName); }
+
+    @Bean
     SimpleMessageListenerContainer g4JsonContainer(MessageListenerAdapter g4JsonListenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(localConnectionFactory());
         container.addQueueNames(jsonQueueName);
         container.setMessageListener(g4JsonListenerAdapter);
+        return container;
+    }
+
+    @Bean
+    SimpleMessageListenerContainer g4RabbitContainer(MessageListenerAdapter g4RabbitListenerAdapter) {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+        container.setConnectionFactory(localConnectionFactory());
+        container.addQueueNames(rabbitQueueName);
+        container.setMessageListener(g4RabbitListenerAdapter);
         return container;
     }
 
@@ -63,5 +76,10 @@ public class LocalRabbitConfig {
     @Bean
     MessageListenerAdapter g4JsonListenerAdapter(G4JsonReceiver g4JsonReceiver, MessageConverter jsonConverter) {
         return new MessageListenerAdapter(g4JsonReceiver, jsonConverter);
+    }
+
+    @Bean
+    MessageListenerAdapter g4RabbitListenerAdapter(G4RabbitReceiver g4RabbitReceiver, MessageConverter jsonConverter) {
+        return new MessageListenerAdapter(g4RabbitReceiver, jsonConverter);
     }
 }

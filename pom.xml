@@ -27,6 +27,7 @@
         <module>loan-broker-bank-translator-json</module>
         <module>loan-broker-bank-translator-xml</module>
         <module>loan-broker-bank-translator-g4-web-service</module>
+        <module>loan-broker-bank-translator-rabbit</module>
         <module>loan-broker-normalizer</module>
         <module>loan-broker-utils</module>
         <module>loan-broker-commons</module>
