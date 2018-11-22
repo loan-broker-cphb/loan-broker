@@ -46,6 +46,9 @@ public class LocalRabbitConfig {
     }
 
     @Bean
+    Queue g4RabbitQueue() { return new Queue(rabbitQueueName); }
+
+    @Bean
     SimpleMessageListenerContainer g4JsonContainer(MessageListenerAdapter g4JsonListenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(localConnectionFactory());
