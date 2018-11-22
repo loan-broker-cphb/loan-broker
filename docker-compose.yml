@@ -8,6 +8,11 @@ services:
     depends_on:
       - rabbitmq
 
+  loan-broker-rabbit-bank:
+    image: loanbrokerg4/rabbit-bank:master
+    depends_on:
+      - rabbitmq
+
   loan-broker-frontend:
     image: loanbrokerg4/frontend:master
     ports:
@@ -68,6 +73,14 @@ services:
       dockerfile: Dockerfile
     depends_on:
     - rabbitmq
+
+  loan-broker-translator-rabbit:
+    build:
+      context: ./loan-broker-bank-translator-rabbit
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+      - loan-broker-rabbit-bank
 
   loan-broker-credit-score:
     build:
