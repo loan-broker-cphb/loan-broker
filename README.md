@@ -41,7 +41,7 @@ We have implemented each component in Spring Boot which widely supports amqp, RE
 it clearly shows which components uses messaging and which are integrated through web service._
 
 
-![image](https://user-images.githubusercontent.com/16150075/48804176-3343a480-ed14-11e8-8c38-01a4f67fe50a.png)
+![image](https://user-images.githubusercontent.com/16150075/49685058-275e2d80-fadd-11e8-9830-82edcab035ea.png)
 
 ### The Message Flow
 1. Receive the consumer's loan quote request.
